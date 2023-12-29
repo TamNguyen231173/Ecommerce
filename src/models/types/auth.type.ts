@@ -16,3 +16,8 @@ export interface Token {
   publicKey?: string
   refreshToken?: []
 }
+
+export interface ApiKey {
+  key?: string
+  status?: boolean
+}
