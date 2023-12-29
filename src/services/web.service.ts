@@ -3,6 +3,8 @@ import { config } from '~/configs'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import compression from 'compression'
+import mainRouter from '~/routes'
+import { errorHandler } from '~/middlewares/error.middleware'
 
 export class WebService {
   protected static app: Express
@@ -16,6 +18,8 @@ export class WebService {
     this.app.use(helmet())
     this.app.use(morgan(config.env === 'development' ? 'dev' : 'combined'))
     this.app.use(compression())
+    this.app.use(mainRouter)
+    this.app.use(errorHandler)
 
     this.app.listen(this.port, () => {
       console.log(`Server running at http://localhost:${this.port}`)

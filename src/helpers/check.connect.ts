@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import os from 'os'
 
-const _SECOND = 5000
+const _SECOND = 60 * 1000
 
 export const checkOverload = () => {
   setInterval(() => {
