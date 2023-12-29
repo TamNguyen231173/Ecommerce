@@ -34,7 +34,7 @@ export const permission = (permission: string) => {
       throw new ApiError(httpStatus.FORBIDDEN, 'Permission denied')
     }
 
-    const validPermission = req.objKey.permission.includes(permission)
+    const validPermission = req.objKey.permissions.includes(permission)
     if (!validPermission) {
       throw new ApiError(httpStatus.FORBIDDEN, 'Permission denied')
     }

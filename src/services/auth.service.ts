@@ -9,13 +9,39 @@ import { ApiError } from '~/utils/api-error.util'
 import httpStatus from 'http-status'
 
 export class AuthService {
-  // static async createAccessToken() {}
+  static async generateTokens(payload: any) {
+    const { privateKey, publicKey } = await crypto.generateKeyPairSync('rsa', {
+      modulusLength: 2048,
+      publicKeyEncoding: {
+        type: 'spki',
+        format: 'pem'
+      },
+      privateKeyEncoding: {
+        type: 'pkcs8',
+        format: 'pem'
+      }
+    })
 
-  // static async createRefreshToken() {}
+    const publicKeyString = await KeyTokenService.createKeyToken({
+      user: payload,
+      publicKey
+    })
 
-  // static async createToken() {}
+    if (!publicKeyString) {
+      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Cannot create public key')
+    }
 
-  // static async verifyRefreshToken() {}
+    const tokenPair = await createTokenPair({
+      payload,
+      privateKey
+    })
+
+    if (!tokenPair) {
+      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Cannot create token pair')
+    }
+
+    return tokenPair
+  }
 
   static async login() {
     //  try {
@@ -43,43 +69,15 @@ export class AuthService {
       })
 
       if (newShop) {
-        const { privateKey, publicKey } = await crypto.generateKeyPairSync('rsa', {
-          modulusLength: 2048,
-          publicKeyEncoding: {
-            type: 'spki',
-            format: 'pem'
-          },
-          privateKeyEncoding: {
-            type: 'pkcs8',
-            format: 'pem'
-          }
+        const infoData = getInfoData({
+          filed: ['_id', 'email', 'name', 'role', 'status', 'verify'],
+          object: newShop
         })
 
-        const publicKeyString = await KeyTokenService.createKeyToken({
-          user: newShop,
-          publicKey
-        })
-
-        if (!publicKeyString) {
-          throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Cannot create public key')
-        }
-
-        const tokenPair = await createTokenPair({
-          payload: newShop.toObject(),
-          privateKey
-        })
-
-        if (!tokenPair) {
-          throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Cannot create token pair')
-        }
-
-        const { accessToken, refreshToken } = tokenPair
+        const { accessToken, refreshToken } = await this.generateTokens(infoData)
 
         return {
-          shop: getInfoData({
-            filed: ['_id', 'email', 'name', 'role', 'status', 'verify'],
-            object: newShop
-          }),
+          shop: infoData,
           tokens: {
             accessToken,
             refreshToken
