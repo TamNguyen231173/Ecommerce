@@ -11,7 +11,8 @@ const schema = new Schema<Token>(
       ref: 'Shop'
     },
     publicKey: { type: String, required: true },
-    refreshToken: { type: Array, default: [] }
+    refreshTokenUsed: { type: Array, default: [] },
+    refreshToken: { type: String, required: true }
   },
   { timestamps: true }
 )

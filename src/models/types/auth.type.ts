@@ -3,6 +3,7 @@ import { Shop } from './shop.type'
 export interface loginBody {
   email: string
   password: string
+  refreshToken?: string
 }
 
 export interface registerBody {
@@ -14,7 +15,8 @@ export interface registerBody {
 export interface Token {
   user?: Shop
   publicKey?: string
-  refreshToken?: []
+  refreshTokenUsed?: []
+  refreshToken?: string
 }
 
 export interface ApiKey {

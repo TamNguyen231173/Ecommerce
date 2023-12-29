@@ -16,8 +16,8 @@ mainRouter.get('/', (req, res) => {
 //   res.send(apiKey)
 // })
 
-mainRouter.use(apiKey)
-mainRouter.use(permission('0000'))
+// mainRouter.use(apiKey)
+// mainRouter.use(permission('0000'))
 
 mainRouter.use('/api/v1', apiRouter)
 

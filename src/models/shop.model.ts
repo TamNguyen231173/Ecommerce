@@ -1,7 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
 import { Shop } from './types/shop.type'
-import exp from 'constants'
-import e from 'express'
 
 interface ShopDocument extends Shop, Document {}
 
@@ -24,7 +22,7 @@ const schema = new Schema<Shop>(
     password: { type: String, required: true },
     status: { type: String, required: true },
     verify: { type: Boolean, required: true },
-    role: { type: Array, default: [] }
+    roles: { type: Array, default: [] }
   },
   { timestamps: true }
 )

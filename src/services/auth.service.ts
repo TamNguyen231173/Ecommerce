@@ -1,12 +1,13 @@
-import { ShopModel, ShopRole, ShopStatus } from '~/models/shop.model'
-import { registerBody } from '~/models/types'
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
-import { KeyTokenService } from './keyToken.service'
+import httpStatus from 'http-status'
+import { ShopModel, ShopRole, ShopStatus } from '~/models/shop.model'
+import { loginBody, registerBody } from '~/models/types'
+import { ApiError } from '~/utils/api-error.util'
 import { createTokenPair } from '~/utils/auth.util'
 import { getInfoData } from '~/utils/filter.util'
-import { ApiError } from '~/utils/api-error.util'
-import httpStatus from 'http-status'
+import { KeyTokenService } from './keyToken.service'
+import { ShopService } from './shop.service'
 
 export class AuthService {
   static async generateTokens(payload: any) {
@@ -43,11 +44,33 @@ export class AuthService {
     return tokenPair
   }
 
-  static async login() {
-    //  try {
-    // } catch (error) {
-    //   console.log(error)
-    // }
+  static async login(payload: loginBody) {
+    const foundShop = await ShopService.findByEmail(payload.email)
+
+    if (!foundShop) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Email not found')
+    }
+
+    const isMatch = await bcrypt.compare(payload.password, foundShop.password as string)
+
+    if (!isMatch) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Password is incorrect')
+    }
+
+    const infoData = getInfoData({
+      filed: ['_id', 'email', 'name', 'role', 'status', 'verify'],
+      object: foundShop
+    })
+
+    const { accessToken, refreshToken } = await this.generateTokens(infoData)
+
+    return {
+      shop: infoData,
+      tokens: {
+        accessToken,
+        refreshToken
+      }
+    }
   }
 
   static async register(payload: registerBody) {
