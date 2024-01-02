@@ -3,8 +3,9 @@ import httpStatus from 'http-status'
 import { ApiError } from '~/utils/api-error.util'
 import { ApiKeyService } from '~/services/apiKey.service'
 
-const HEADER = {
+export const HEADER = {
   API_KEY: 'x-api-key',
+  CLIENT_ID: 'x-client-id',
   AUTHORIZATION: 'authorization'
 }
 

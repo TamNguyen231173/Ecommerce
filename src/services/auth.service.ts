@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 import httpStatus from 'http-status'
 import { ShopModel, ShopRole, ShopStatus } from '~/models/shop.model'
-import { loginBody, registerBody } from '~/models/types'
+import { KeyToken, loginBody, registerBody } from '~/models/types'
 import { ApiError } from '~/utils/api-error.util'
 import { createTokenPair } from '~/utils/auth.util'
 import { getInfoData } from '~/utils/filter.util'
@@ -109,6 +109,14 @@ export class AuthService {
       }
 
       return null
+    } catch (error: any) {
+      throw new ApiError(error.statusCode, error.message)
+    }
+  }
+
+  static async logout(keyStore: KeyToken) {
+    try {
+      return KeyTokenService.removeKeyById(keyStore._id as string)
     } catch (error: any) {
       throw new ApiError(error.statusCode, error.message)
     }

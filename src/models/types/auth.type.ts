@@ -12,7 +12,8 @@ export interface registerBody {
   password: string
 }
 
-export interface Token {
+export interface KeyToken {
+  _id?: any
   user?: Shop
   publicKey?: string
   refreshTokenUsed?: []

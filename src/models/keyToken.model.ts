@@ -1,9 +1,9 @@
 import { Document, Schema, model } from 'mongoose'
-import { Token } from './types'
+import { KeyToken } from './types'
 
-interface TokenDocument extends Token, Document {}
+interface KeyTokenDocument extends KeyToken, Document {}
 
-const schema = new Schema<Token>(
+const schema = new Schema<KeyToken>(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -17,4 +17,4 @@ const schema = new Schema<Token>(
   { timestamps: true }
 )
 
-export const TokenModel = model<TokenDocument>('Token', schema)
+export const KeyTokenModel = model<KeyTokenDocument>('KeyToken', schema)

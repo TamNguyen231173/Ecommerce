@@ -1,4 +1,4 @@
-import { TokenModel } from '~/models/token.model'
+import { KeyTokenModel } from '~/models/keyToken.model'
 import { Shop } from '~/models/types/shop.type'
 
 export class KeyTokenService {
@@ -15,11 +15,19 @@ export class KeyTokenService {
       const update = { publicKey: publicKey.toString() }
       const options = { new: true, upsert: true }
 
-      const tokens = await TokenModel.findOneAndUpdate(filter, update, options)
+      const tokens = await KeyTokenModel.findOneAndUpdate(filter, update, options)
 
       return tokens ? tokens.publicKey : null
     } catch (error) {
       console.log(error)
     }
+  }
+
+  static async findByUserId(userId: string) {
+    return KeyTokenModel.findOne({ user: userId }).lean()
+  }
+
+  static async removeKeyById(_id: string) {
+    return KeyTokenModel.findByIdAndDelete({ _id })
   }
 }

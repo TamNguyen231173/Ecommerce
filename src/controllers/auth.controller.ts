@@ -17,4 +17,12 @@ export class AuthController {
       data
     })
   }
+
+  static async logout(req: Request, res: Response) {
+    const data = await AuthService.logout(req.keyStore)
+    return res.status(200).json({
+      message: 'Logout successfully',
+      data
+    })
+  }
 }

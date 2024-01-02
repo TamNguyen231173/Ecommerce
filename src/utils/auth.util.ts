@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
 export const createTokenPair = async ({ payload, privateKey }: { payload: any; privateKey: string }) => {
   try {
