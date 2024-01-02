@@ -3,8 +3,9 @@ import crypto from 'crypto'
 import httpStatus from 'http-status'
 import { ShopModel, ShopRole, ShopStatus } from '~/models/shop.model'
 import { KeyToken, loginBody, registerBody } from '~/models/types'
+import { Shop } from '~/models/types/shop.type'
 import { ApiError } from '~/utils/api-error.util'
-import { createTokenPair } from '~/utils/auth.util'
+import { createTokenPair, verifyJwt } from '~/utils/auth.util'
 import { getInfoData } from '~/utils/filter.util'
 import { KeyTokenService } from './keyToken.service'
 import { ShopService } from './shop.service'
@@ -23,15 +24,6 @@ export class AuthService {
       }
     })
 
-    const publicKeyString = await KeyTokenService.createKeyToken({
-      user: payload,
-      publicKey
-    })
-
-    if (!publicKeyString) {
-      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Cannot create public key')
-    }
-
     const tokenPair = await createTokenPair({
       payload,
       privateKey
@@ -39,6 +31,16 @@ export class AuthService {
 
     if (!tokenPair) {
       throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Cannot create token pair')
+    }
+
+    const publicKeyString = await KeyTokenService.createKeyToken({
+      user: payload,
+      publicKey,
+      refreshToken: tokenPair.refreshToken
+    })
+
+    if (!publicKeyString) {
+      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Cannot create public key')
     }
 
     return tokenPair
@@ -119,6 +121,47 @@ export class AuthService {
       return KeyTokenService.removeKeyById(keyStore._id as string)
     } catch (error: any) {
       throw new ApiError(error.statusCode, error.message)
+    }
+  }
+
+  static async refreshToken(refreshToken: string) {
+    const foundToken = await KeyTokenService.findByRefreshTokenUsed(refreshToken)
+
+    if (foundToken) {
+      await KeyTokenService.removeKeyByUserId(foundToken.user as string)
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Refresh token is used')
+    }
+
+    const holderToken = await KeyTokenService.findByRefreshToken(refreshToken)
+    if (!holderToken) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Refresh token is not exists')
+    }
+
+    const payloadToken = (await verifyJwt({
+      token: refreshToken,
+      publicKey: holderToken.publicKey as string
+    })) as Shop
+
+    const shop = await ShopService.findByEmail(payloadToken.email as string)
+    if (!shop) throw new ApiError(httpStatus.NOT_FOUND, 'Email not found')
+
+    const tokens = await this.generateTokens(shop)
+
+    await holderToken.updateOne({
+      $set: {
+        refreshToken: tokens.refreshToken
+      },
+      $addToSet: {
+        refreshTokenUsed: refreshToken
+      }
+    })
+
+    return {
+      shop: getInfoData({
+        filed: ['_id', 'email', 'name', 'role', 'status', 'verify'],
+        object: shop
+      }),
+      tokens
     }
   }
 }

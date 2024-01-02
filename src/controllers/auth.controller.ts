@@ -25,4 +25,12 @@ export class AuthController {
       data
     })
   }
+
+  static async refreshToken(req: Request, res: Response) {
+    const data = await AuthService.refreshToken(req.body.refreshToken)
+    return res.status(200).json({
+      message: 'Refresh token successfully',
+      data
+    })
+  }
 }

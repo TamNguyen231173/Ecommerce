@@ -4,7 +4,7 @@ import { WebService } from './services/web.service'
 const main = async () => {
   try {
     await WebService.start()
-    DbService.getInstance()
+    await DbService.getInstance()
   } catch (error) {
     console.log(error)
   }

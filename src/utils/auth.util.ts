@@ -1,6 +1,8 @@
-import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'
+import { ShopModel } from '~/models/shop.model'
+import { Shop } from '~/models/types/shop.type'
 
-export const createTokenPair = async ({ payload, privateKey }: { payload: any; privateKey: string }) => {
+export const createTokenPair = async ({ payload, privateKey }: { payload: Shop; privateKey: string }) => {
   try {
     const accessToken = await jwt.sign(payload, privateKey, {
       expiresIn: '1 day',
@@ -13,6 +15,19 @@ export const createTokenPair = async ({ payload, privateKey }: { payload: any; p
     })
 
     return { accessToken, refreshToken }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const verifyJwt = async ({ token, publicKey }: { token: string; publicKey: string }) => {
+  try {
+    console.log(publicKey)
+    const decoded = (await jwt.verify(token, publicKey, {
+      algorithms: ['RS256']
+    })) as Shop
+
+    return decoded
   } catch (error) {
     console.log(error)
   }

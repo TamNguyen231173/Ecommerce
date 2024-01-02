@@ -2,7 +2,15 @@ import { KeyTokenModel } from '~/models/keyToken.model'
 import { Shop } from '~/models/types/shop.type'
 
 export class KeyTokenService {
-  static async createKeyToken({ user, publicKey }: { user: Shop; publicKey: string }) {
+  static async createKeyToken({
+    user,
+    publicKey,
+    refreshToken
+  }: {
+    user: Shop
+    publicKey: string
+    refreshToken: string
+  }) {
     try {
       // const tokens = await TokenModel.create({
       //   user: user._id,
@@ -12,7 +20,7 @@ export class KeyTokenService {
       // return tokens ? tokens.publicKey : null
 
       const filter = { user }
-      const update = { publicKey: publicKey.toString() }
+      const update = { publicKey: publicKey.toString(), refreshToken }
       const options = { new: true, upsert: true }
 
       const tokens = await KeyTokenModel.findOneAndUpdate(filter, update, options)
@@ -29,5 +37,18 @@ export class KeyTokenService {
 
   static async removeKeyById(_id: string) {
     return KeyTokenModel.findByIdAndDelete({ _id })
+  }
+
+  static async findByRefreshToken(refreshToken: string) {
+    return KeyTokenModel.findOne({ refreshToken })
+  }
+
+  static async findByRefreshTokenUsed(refreshToken: string) {
+    return await KeyTokenModel.findOne({ refreshTokenUsed: { $in: refreshToken } }).lean()
+  }
+
+  static async removeKeyByUserId(userId: string) {
+    console.log(userId)
+    return KeyTokenModel.findOneAndDelete({ user: userId })
   }
 }
