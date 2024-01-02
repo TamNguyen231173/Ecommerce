@@ -9,6 +9,7 @@ import { createTokenPair, verifyJwt } from '~/utils/auth.util'
 import { getInfoData } from '~/utils/filter.util'
 import { KeyTokenService } from './keyToken.service'
 import { ShopService } from './shop.service'
+import { KeyTokenDocument } from '~/models/keyToken.model'
 
 export class AuthService {
   static async generateTokens(payload: any) {
@@ -124,30 +125,31 @@ export class AuthService {
     }
   }
 
-  static async refreshToken(refreshToken: string) {
-    const foundToken = await KeyTokenService.findByRefreshTokenUsed(refreshToken)
-
-    if (foundToken) {
-      await KeyTokenService.removeKeyByUserId(foundToken.user as string)
+  static async refreshToken({
+    refreshToken,
+    keyStore,
+    user
+  }: {
+    refreshToken: string
+    keyStore: KeyTokenDocument
+    user: Shop
+  }) {
+    if (keyStore.refreshTokenUsed?.includes(refreshToken)) {
+      await KeyTokenService.removeKeyByUserId(user._id)
       throw new ApiError(httpStatus.BAD_REQUEST, 'Refresh token is used')
     }
 
-    const holderToken = await KeyTokenService.findByRefreshToken(refreshToken)
-    if (!holderToken) {
+    if (keyStore.refreshToken !== refreshToken)
       throw new ApiError(httpStatus.BAD_REQUEST, 'Refresh token is not exists')
-    }
 
-    const payloadToken = (await verifyJwt({
-      token: refreshToken,
-      publicKey: holderToken.publicKey as string
-    })) as Shop
+    console.log(user.email)
 
-    const shop = await ShopService.findByEmail(payloadToken.email as string)
+    const shop = await ShopService.findByEmail(user.email as string)
     if (!shop) throw new ApiError(httpStatus.NOT_FOUND, 'Email not found')
 
     const tokens = await this.generateTokens(shop)
 
-    await holderToken.updateOne({
+    await keyStore.updateOne({
       $set: {
         refreshToken: tokens.refreshToken
       },

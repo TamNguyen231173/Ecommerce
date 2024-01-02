@@ -32,7 +32,7 @@ export class KeyTokenService {
   }
 
   static async findByUserId(userId: string) {
-    return KeyTokenModel.findOne({ user: userId }).lean()
+    return KeyTokenModel.findOne({ user: userId })
   }
 
   static async removeKeyById(_id: string) {

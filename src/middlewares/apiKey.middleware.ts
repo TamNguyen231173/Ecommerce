@@ -6,7 +6,8 @@ import { ApiKeyService } from '~/services/apiKey.service'
 export const HEADER = {
   API_KEY: 'x-api-key',
   CLIENT_ID: 'x-client-id',
-  AUTHORIZATION: 'authorization'
+  AUTHORIZATION: 'authorization',
+  REFRESH_TOKEN: 'refresh-token'
 }
 
 export const apiKey = async (req: Request, res: Response, next: NextFunction) => {

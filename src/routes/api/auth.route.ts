@@ -8,6 +8,6 @@ const authRouter = Router()
 authRouter.post('/login', AuthController.login)
 authRouter.post('/register', AuthController.register)
 authRouter.post('/logout', authentication, AuthController.logout)
-authRouter.post('/refresh-token', AuthController.refreshToken)
+authRouter.post('/refresh-token', authentication, AuthController.refreshToken)
 
 export default authRouter

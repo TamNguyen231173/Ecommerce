@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken'
-import { ShopModel } from '~/models/shop.model'
 import { Shop } from '~/models/types/shop.type'
 
 export const createTokenPair = async ({ payload, privateKey }: { payload: Shop; privateKey: string }) => {
@@ -22,13 +21,12 @@ export const createTokenPair = async ({ payload, privateKey }: { payload: Shop; 
 
 export const verifyJwt = async ({ token, publicKey }: { token: string; publicKey: string }) => {
   try {
-    console.log(publicKey)
     const decoded = (await jwt.verify(token, publicKey, {
       algorithms: ['RS256']
     })) as Shop
 
     return decoded
   } catch (error) {
-    console.log(error)
+    console.log('error: ', error)
   }
 }

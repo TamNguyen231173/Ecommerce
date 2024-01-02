@@ -1,7 +1,7 @@
 import { Document, Schema, model } from 'mongoose'
 import { KeyToken } from './types'
 
-interface KeyTokenDocument extends KeyToken, Document {}
+export interface KeyTokenDocument extends KeyToken, Document {}
 
 const schema = new Schema<KeyToken>(
   {
