@@ -1,9 +1,8 @@
-import { ProductService } from '~/services/product.service'
+import { ProductService } from '~/services/product.service.v2'
 import { Request, Response } from 'express'
 
 export class ProductController {
   static async create(req: Request, res: Response) {
-    console.log(req.user)
     req.body = {
       ...req.body,
       shop: req.user._id

@@ -5,7 +5,8 @@ export enum ProductType {
   BOOK = 'book',
   ELECTRONIC = 'electronic',
   CLOTH = 'cloth',
-  OTHER = 'other'
+  OTHER = 'other',
+  FURNITURE = 'furniture'
 }
 
 interface ProductDocument extends Product, Document {}

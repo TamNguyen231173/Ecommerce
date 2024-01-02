@@ -25,3 +25,10 @@ export interface Electronic {
   modelName?: string
   color?: string
 }
+
+export interface Furniture {
+  _id?: any
+  material?: string
+  color?: string
+  weight?: number
+}
