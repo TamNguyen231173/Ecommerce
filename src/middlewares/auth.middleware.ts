@@ -18,10 +18,10 @@ export const authentication = async (req: Request, res: Response, next: NextFunc
   try {
     if (!keyStore.publicKey) throw new ApiError(httpStatus.FORBIDDEN, 'Missing public key')
     const decodeUser = jwt.verify(accessToken, keyStore.publicKey) as any
-    console.log('decodeUser', decodeUser)
     if (userId !== decodeUser?._id) throw new ApiError(httpStatus.FORBIDDEN, 'Invalid access token')
 
     req.keyStore = keyStore
+    req.user = decodeUser
 
     return next()
   } catch (error: any) {
