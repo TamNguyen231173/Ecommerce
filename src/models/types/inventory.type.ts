@@ -3,9 +3,9 @@ import { Shop } from './shop.type'
 
 export interface Inventory {
   _id?: any
-  product?: Product
+  product?: Product | string
   location?: string
   stock?: number
-  shop?: Shop
+  shop?: Shop | string
   reservations?: any[]
 }
