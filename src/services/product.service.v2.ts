@@ -3,6 +3,7 @@ import { ClothModel, ElectronicModel, ProductModel, ProductType } from '~/models
 import { Shop } from '~/models/types/shop.type'
 import { ApiError } from '~/utils/api-error.util'
 import { Product as ProductInterface } from '../models/types/product.type'
+import { ProductRepo } from '~/models/repositories/product.repo'
 
 export class ProductService {
   static productRegistry: {
@@ -16,9 +17,53 @@ export class ProductService {
   static async createProduct(type: ProductType, payload: any) {
     const productClass = ProductService.productRegistry[type]
     if (!productClass) throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid product type')
-    console.log('payload: ', payload)
-    console.log('productClass: ', productClass)
     return new productClass(payload).createProduct()
+  }
+
+  static async publishProductByShop({ shop_id, product_id }: { shop_id: string; product_id: string }) {
+    return ProductRepo.publishProductByShop({ shop_id, product_id })
+  }
+
+  static async unPublishProductByShop({ shop_id, product_id }: { shop_id: string; product_id: string }) {
+    return ProductRepo.unPublishProductByShop({ shop_id, product_id })
+  }
+
+  static async findAllDraftsForShop({
+    shop_id,
+    limit = 50,
+    skip = 0
+  }: {
+    shop_id: string
+    limit?: number
+    skip?: number
+  }) {
+    const query = { shop: shop_id, isDraft: true }
+    return ProductRepo.queryProducts({ query, limit, skip })
+  }
+
+  static async findAllPublishedProductsForShop({
+    shop_id,
+    limit = 50,
+    skip = 0
+  }: {
+    shop_id: string
+    limit?: number
+    skip?: number
+  }) {
+    const query = { shop: shop_id, isPublished: true }
+    return ProductRepo.queryProducts({ query, limit, skip })
+  }
+
+  static async searchProducts({
+    keySearch,
+    limit = 1,
+    skip = 10
+  }: {
+    keySearch: string
+    limit?: number
+    skip?: number
+  }) {
+    return ProductRepo.searchProductByUser({ keySearch, limit, skip })
   }
 }
 

@@ -13,4 +13,56 @@ export class ProductController {
       data
     })
   }
+
+  static async getAllDraftsForShop(req: Request, res: Response) {
+    const data = await ProductService.findAllDraftsForShop({
+      shop_id: req.user._id
+    })
+    return res.status(200).json({
+      message: 'Get all drafts successfully',
+      data
+    })
+  }
+
+  static async publishProductByShop(req: Request, res: Response) {
+    const data = await ProductService.publishProductByShop({
+      shop_id: req.user._id,
+      product_id: req.params.id
+    })
+    return res.status(200).json({
+      message: 'Publish product successfully',
+      data
+    })
+  }
+
+  static async unPublishProductByShop(req: Request, res: Response) {
+    const data = await ProductService.unPublishProductByShop({
+      shop_id: req.user._id,
+      product_id: req.params.id
+    })
+    return res.status(200).json({
+      message: 'Unpublish product successfully',
+      data
+    })
+  }
+
+  static async getAllPublishedForShop(req: Request, res: Response) {
+    const data = await ProductService.findAllPublishedProductsForShop({
+      shop_id: req.user._id
+    })
+    return res.status(200).json({
+      message: 'Get all published products successfully',
+      data
+    })
+  }
+
+  static async searchProducts(req: Request, res: Response) {
+    const data = await ProductService.searchProducts({
+      keySearch: req.query.q as string
+    })
+    return res.status(200).json({
+      message: 'Search products successfully',
+      data
+    })
+  }
 }

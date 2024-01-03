@@ -8,6 +8,6 @@ const apiRouter = Router()
 
 apiRouter.use('/auth', authRouter)
 apiRouter.use('/shop', authentication, shopRouter)
-apiRouter.use('/product', authentication, productRouter)
+apiRouter.use('/product', productRouter)
 
 export default apiRouter

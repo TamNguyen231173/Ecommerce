@@ -3,6 +3,7 @@ import { Shop } from './shop.type'
 export interface Product {
   _id?: any
   name?: string
+  slug?: string
   thumb?: string
   description?: string
   price?: number
@@ -10,6 +11,10 @@ export interface Product {
   type?: string
   shop?: Shop
   attributes?: any
+  ratingsAverage?: number
+  variations?: any[]
+  isDraft?: boolean
+  isPublished?: boolean
 }
 
 export interface Cloth {
