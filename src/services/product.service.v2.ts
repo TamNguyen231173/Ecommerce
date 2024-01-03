@@ -1,16 +1,17 @@
 import httpStatus from 'http-status'
 import { ClothModel, ElectronicModel, ProductModel, ProductType } from '~/models/product'
+import { ProductRepo } from '~/models/repositories/product.repo'
 import { Shop } from '~/models/types/shop.type'
 import { ApiError } from '~/utils/api-error.util'
 import { Product as ProductInterface } from '../models/types/product.type'
-import { ProductRepo } from '~/models/repositories/product.repo'
+import { removeEmpty, updateNestedObject } from '~/utils/filter.util'
 
 export class ProductService {
   static productRegistry: {
-    [key: string]: typeof Cloth | typeof Electronic
+    [key: string]: any
   } = {}
 
-  static registerProductType(type: ProductType, productClass: typeof Cloth | typeof Electronic) {
+  static registerProductType(type: ProductType, productClass: typeof Cloth | typeof Electronic | typeof Furniture) {
     ProductService.productRegistry[type] = productClass
   }
 
@@ -18,6 +19,14 @@ export class ProductService {
     const productClass = ProductService.productRegistry[type]
     if (!productClass) throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid product type')
     return new productClass(payload).createProduct()
+  }
+
+  static async updateProduct({ product_id, payload }: { product_id: string; payload: any }) {
+    const product = await ProductRepo.findProductById({ product_id })
+    if (!product) throw new ApiError(httpStatus.NOT_FOUND, 'Product not found')
+    const productClass = ProductService.productRegistry[product.type as ProductType]
+    if (!productClass) throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid product type')
+    return new productClass(payload).updateProduct(product_id)
   }
 
   static async publishProductByShop({ shop_id, product_id }: { shop_id: string; product_id: string }) {
@@ -118,6 +127,16 @@ class Product {
       _id: product_id
     })
   }
+
+  async updateProduct(product_id: string, payload: any) {
+    const productAfterRemoveEmpty = removeEmpty(payload)
+    const productAfterUpdateNested = updateNestedObject(productAfterRemoveEmpty)
+    return ProductRepo.updateProductById({
+      product_id,
+      payload: productAfterUpdateNested,
+      model: ProductModel
+    })
+  }
 }
 
 // Define sub-class for different product types Cloth
@@ -145,6 +164,18 @@ class Cloth extends Product {
     if (!newProduct) throw new Error('Cannot create new product')
 
     return newProduct
+  }
+
+  async updateProduct(product_id: string) {
+    if (this.attributes) {
+      await ProductRepo.updateProductById({
+        product_id,
+        payload: this.attributes,
+        model: ClothModel
+      })
+    }
+    console.log('this: ', this)
+    return super.updateProduct(product_id, this)
   }
 }
 
@@ -185,6 +216,18 @@ class Electronic extends Product {
 
     return newProduct
   }
+
+  async updateProduct(product_id: string) {
+    if (this.attributes) {
+      await ProductRepo.updateProductById({
+        product_id,
+        payload: this.attributes,
+        model: ElectronicModel
+      })
+    }
+
+    return super.updateProduct(product_id, this)
+  }
 }
 
 // Define sub-class for different product types Furniture
@@ -223,6 +266,18 @@ class Furniture extends Product {
     if (!newProduct) throw new Error('Cannot create new product')
 
     return newProduct
+  }
+
+  async updateProduct(product_id: string) {
+    if (this.attributes) {
+      await ProductRepo.updateProductById({
+        product_id,
+        payload: this.attributes,
+        model: ElectronicModel
+      })
+    }
+
+    return super.updateProduct(product_id, this)
   }
 }
 

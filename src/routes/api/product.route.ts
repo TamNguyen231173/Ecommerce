@@ -11,6 +11,7 @@ productRouter.get('/:id', ProductController.getProductById)
 // Shop
 productRouter.use(authentication)
 productRouter.post('/create', ProductController.create)
+productRouter.patch('/update/:id', ProductController.updateProductById)
 productRouter.get('/draft/all', ProductController.getAllDraftsForShop)
 productRouter.get('/published/all', ProductController.getAllPublishedForShop)
 productRouter.patch('/publish/:id', ProductController.publishProductByShop)

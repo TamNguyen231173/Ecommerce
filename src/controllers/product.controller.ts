@@ -87,4 +87,15 @@ export class ProductController {
       data
     })
   }
+
+  static async updateProductById(req: Request, res: Response) {
+    const data = await ProductService.updateProduct({
+      product_id: req.params.id,
+      payload: req.body
+    })
+    return res.status(200).json({
+      message: 'Update product successfully',
+      data
+    })
+  }
 }

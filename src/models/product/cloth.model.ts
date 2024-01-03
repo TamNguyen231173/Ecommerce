@@ -1,7 +1,7 @@
 import { Document, Schema, model } from 'mongoose'
 import { Cloth } from '../types/product.type'
 
-interface ClothDocument extends Cloth, Document {}
+export interface ClothDocument extends Cloth, Document {}
 
 const schema = new Schema<Cloth>(
   {

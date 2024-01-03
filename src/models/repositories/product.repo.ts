@@ -1,6 +1,7 @@
 import { result } from 'lodash'
 import { ProductModel } from '../product'
 import { getUnSelectData } from '~/utils/filter.util'
+import { Document, Model, Types } from 'mongoose'
 
 export class ProductRepo {
   static publishProductByShop({ shop_id, product_id }: { shop_id: string; product_id: string }) {
@@ -64,5 +65,29 @@ export class ProductRepo {
 
   static async findProductById({ product_id, unSelect }: { product_id: string; unSelect?: string[] }) {
     return ProductModel.findById(product_id).select(getUnSelectData(unSelect)).lean().exec()
+  }
+
+  static async updateProductById<TDocument extends Document, T>({
+    product_id,
+    payload,
+    model,
+    isNew = true
+  }: {
+    product_id: string
+    payload: any
+    model: Model<
+      TDocument,
+      {},
+      {},
+      {},
+      Document<unknown, {}, TDocument> &
+        T & {
+          _id: Types.ObjectId
+        },
+      any
+    >
+    isNew?: boolean
+  }) {
+    return model.findOneAndUpdate({ _id: product_id }, payload, { new: isNew }).lean().exec()
   }
 }
