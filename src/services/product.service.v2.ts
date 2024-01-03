@@ -5,6 +5,7 @@ import { Shop } from '~/models/types/shop.type'
 import { ApiError } from '~/utils/api-error.util'
 import { Product as ProductInterface } from '../models/types/product.type'
 import { removeEmpty, updateNestedObject } from '~/utils/filter.util'
+import { InventoryRepo } from '~/models/repositories/inventory.repo'
 
 export class ProductService {
   static productRegistry: {
@@ -122,10 +123,21 @@ class Product {
   }
 
   async createProduct(product_id: string) {
-    return ProductModel.create({
+    const newProduct = await ProductModel.create({
       ...this,
       _id: product_id
     })
+
+    if (newProduct) {
+      await InventoryRepo.insertInventory({
+        product: product_id,
+        shop: this.shop,
+        stock: this.quantity,
+        location: 'unknown'
+      })
+    }
+
+    return newProduct
   }
 
   async updateProduct(product_id: string, payload: any) {
