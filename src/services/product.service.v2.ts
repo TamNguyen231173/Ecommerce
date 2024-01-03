@@ -56,14 +56,37 @@ export class ProductService {
 
   static async searchProducts({
     keySearch,
-    limit = 1,
-    skip = 10
+    limit = 50,
+    skip = 0
   }: {
     keySearch: string
     limit?: number
     skip?: number
   }) {
     return ProductRepo.searchProductByUser({ keySearch, limit, skip })
+  }
+
+  static async findAllProducts({
+    sort = 'ctime',
+    limit = 50,
+    page = 1,
+    filter = { isPublished: true },
+    select = 'name price description thumb quantity type shop'
+  }: {
+    sort: string
+    limit?: number
+    page?: number
+    filter: any
+    select: string
+  }) {
+    return ProductRepo.findAllProducts({ limit, page, sort, filter, select })
+  }
+
+  static async findProductById(product_id: string) {
+    return ProductRepo.findProductById({
+      product_id,
+      unSelect: ['__v']
+    })
   }
 }
 

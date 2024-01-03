@@ -56,6 +56,28 @@ export class ProductController {
     })
   }
 
+  static async getAllProducts(req: Request, res: Response) {
+    const data = await ProductService.findAllProducts({
+      sort: req.query.sort as string,
+      limit: Number(req.query.limit),
+      page: Number(req.query.page),
+      filter: req.query.filter,
+      select: req.query.select as string
+    })
+    return res.status(200).json({
+      message: 'Get all products successfully',
+      data
+    })
+  }
+
+  static async getProductById(req: Request, res: Response) {
+    const data = await ProductService.findProductById(req.params.id)
+    return res.status(200).json({
+      message: 'Get product successfully',
+      data
+    })
+  }
+
   static async searchProducts(req: Request, res: Response) {
     const data = await ProductService.searchProducts({
       keySearch: req.query.q as string

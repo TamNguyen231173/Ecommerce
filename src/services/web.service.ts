@@ -21,8 +21,19 @@ export class WebService {
     this.app.use(mainRouter)
     this.app.use(errorHandler)
 
-    this.app.listen(this.port, () => {
-      console.log(`Server running at http://localhost:${this.port}`)
+    const httpServer = this.app.listen(this.port, () => {
+      console.log(`Server is running on port ${this.port}`)
     })
+
+    httpServer.on('error', (error: NodeJS.ErrnoException) => {
+      if (error.code === 'EADDRINUSE') {
+        console.error(`Port ${this.port} is already in use`)
+        // You can add code here to handle the error, e.g. try a different port
+      } else {
+        throw error
+      }
+    })
+
+    return httpServer
   }
 }

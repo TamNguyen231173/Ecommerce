@@ -6,7 +6,8 @@ export const productRouter = Router()
 
 // Customer
 productRouter.get('/search', ProductController.searchProducts)
-
+productRouter.get('/all', ProductController.getAllProducts)
+productRouter.get('/:id', ProductController.getProductById)
 // Shop
 productRouter.use(authentication)
 productRouter.post('/create', ProductController.create)

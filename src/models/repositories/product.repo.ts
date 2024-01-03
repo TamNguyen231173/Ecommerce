@@ -1,5 +1,6 @@
 import { result } from 'lodash'
 import { ProductModel } from '../product'
+import { getUnSelectData } from '~/utils/filter.util'
 
 export class ProductRepo {
   static publishProductByShop({ shop_id, product_id }: { shop_id: string; product_id: string }) {
@@ -40,5 +41,28 @@ export class ProductRepo {
     )
       .sort({ updatedAt: -1 })
       .lean()
+  }
+
+  static async findAllProducts({
+    sort,
+    limit,
+    page,
+    filter,
+    select
+  }: {
+    sort: string
+    limit: number
+    page: number
+    filter: any
+    select: string
+  }) {
+    const skip = (page - 1) * limit
+    const sortBy: Record<string, -1 | 1> = sort === 'ctime' ? { createdAt: -1 } : { updatedAt: -1 }
+
+    return ProductModel.find(filter, select).sort(sortBy).skip(skip).limit(limit).lean().exec()
+  }
+
+  static async findProductById({ product_id, unSelect }: { product_id: string; unSelect?: string[] }) {
+    return ProductModel.findById(product_id).select(getUnSelectData(unSelect)).lean().exec()
   }
 }

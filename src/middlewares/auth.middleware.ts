@@ -7,13 +7,13 @@ import { verifyJwt } from '~/utils/auth.util'
 import { Shop } from '~/models/types/shop.type'
 import { ShopService } from '~/services/shop.service'
 
-const verifyToken = async (token: string, publicKey: string, userId: string) => {
+const verifyToken = async (token: string, publicKey: string, userId: string, options?: string) => {
   try {
     const decodedUser = (await verifyJwt({
       token,
       publicKey
     })) as Shop
-    if (!decodedUser) {
+    if (!decodedUser && options === 'refreshToken') {
       await KeyTokenService.removeKeyByUserId(userId)
       throw new Error('Invalid token')
     }
@@ -41,7 +41,7 @@ export const authentication = async (req: Request, res: Response, next: NextFunc
 
   try {
     if (refreshToken) {
-      const decodedUser = await verifyToken(refreshToken, keyStore.publicKey, userId)
+      const decodedUser = await verifyToken(refreshToken, keyStore.publicKey, userId, 'refreshToken')
       req.keyStore = keyStore
       req.user = decodedUser
       req.refreshToken = refreshToken
