@@ -12,7 +12,7 @@ export enum ProductType {
 
 interface ProductDocument extends Product, Document {}
 
-const schema = new Schema<Product>(
+const schema = new Schema<ProductDocument>(
   {
     name: { type: String, required: true },
     slug: { type: String },

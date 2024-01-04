@@ -19,11 +19,11 @@ export class ProductService {
 
 // Define base product class
 class Product {
-  name?: string
-  price?: number
+  name: string
+  price: number
   description?: string
   thumb?: string
-  quantity?: number
+  quantity: number
   type?: string
   shop?: Shop
   attributes?: any

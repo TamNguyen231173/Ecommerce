@@ -3,7 +3,7 @@ import { Inventory } from './types/inventory.type'
 
 export interface InventoryDocument extends Inventory, Document {}
 
-const schema = new Schema<Inventory>(
+const schema = new Schema<InventoryDocument>(
   {
     product: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
     location: { type: String, required: true },

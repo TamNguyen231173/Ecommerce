@@ -2,12 +2,12 @@ import { Shop } from './shop.type'
 
 export interface Product {
   _id?: any
-  name?: string
+  name: string
   slug?: string
   thumb?: string
   description?: string
-  price?: number
-  quantity?: number
+  price: number
+  quantity: number
   type?: string
   shop?: Shop
   attributes?: any

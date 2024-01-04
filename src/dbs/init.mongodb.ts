@@ -20,7 +20,7 @@ export class DbService {
         .connect(mongooseConfig.uri)
         .then(() => {
           console.log('Connected to MongoDB')
-          checkOverload()
+          // checkOverload()
         })
         .catch((err) => console.log(err))
     }

@@ -1,5 +1,9 @@
 import pick from 'lodash/pick'
 
+export interface QueryFilter {
+  [key: string]: any
+}
+
 export const getInfoData = ({ filed = [], object = {} }: { filed: string[]; object: any }) => {
   return pick(object, filed)
 }

@@ -1,6 +1,6 @@
 import { result } from 'lodash'
 import { ProductModel } from '../product'
-import { getUnSelectData } from '~/utils/filter.util'
+import { QueryFilter, getUnSelectData } from '~/utils/filter.util'
 import { Document, Model, Types } from 'mongoose'
 
 export class ProductRepo {
@@ -54,7 +54,7 @@ export class ProductRepo {
     sort: string
     limit: number
     page: number
-    filter: any
+    filter: QueryFilter
     select: string
   }) {
     const skip = (page - 1) * limit

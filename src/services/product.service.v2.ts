@@ -102,11 +102,11 @@ export class ProductService {
 
 // Define base product class
 class Product {
-  name?: string
-  price?: number
+  name: string
+  price: number
   description?: string
   thumb?: string
-  quantity?: number
+  quantity: number
   type?: string
   shop?: Shop
   attributes?: any
@@ -186,7 +186,6 @@ class Cloth extends Product {
         model: ClothModel
       })
     }
-    console.log('this: ', this)
     return super.updateProduct(product_id, this)
   }
 }

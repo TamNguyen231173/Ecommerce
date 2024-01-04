@@ -14,16 +14,16 @@ export enum DiscountAppliesTo {
 
 export interface Discount {
   _id?: any
-  name?: string
+  name: string
   description?: string
   type?: DiscountType
-  value?: number
-  code?: string
-  start_date?: Date
-  end_date?: Date
+  value: number
+  code: string
+  start_date: Date
+  end_date: Date
   discount_limit?: number
   discount_used?: number
-  user_used?: []
+  user_used: []
   max_used_per_user?: number
   min_order_value?: number
   shop?: Shop | string
