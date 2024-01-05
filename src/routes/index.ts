@@ -1,8 +1,5 @@
 import { Router } from 'express'
 import apiRouter from './api'
-import { apiKey } from '~/middlewares/apiKey.middleware'
-import { permission } from '~/middlewares/apiKey.middleware'
-import { ApiKeyService } from '~/services/apiKey.service'
 
 const mainRouter = Router()
 

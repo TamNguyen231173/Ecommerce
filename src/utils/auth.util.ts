@@ -1,5 +1,8 @@
 import jwt from 'jsonwebtoken'
 import { Shop } from '~/models/types/shop.type'
+import { ApiError } from './api-error.util'
+import { http } from 'winston'
+import httpStatus from 'http-status'
 
 export const createTokenPair = async ({ payload, privateKey }: { payload: Shop; privateKey: string }) => {
   try {
@@ -27,6 +30,6 @@ export const verifyJwt = async ({ token, publicKey }: { token: string; publicKey
 
     return decoded
   } catch (error) {
-    console.log('error: ', error)
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Verify token failed')
   }
 }

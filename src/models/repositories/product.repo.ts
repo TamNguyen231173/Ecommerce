@@ -90,4 +90,8 @@ export class ProductRepo {
   }) {
     return model.findOneAndUpdate({ _id: product_id }, payload, { new: isNew }).lean().exec()
   }
+
+  static async getProductById(product_id: string) {
+    return ProductModel.findById(product_id).lean().exec()
+  }
 }

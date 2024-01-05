@@ -6,6 +6,7 @@ import { HEADER } from './apiKey.middleware'
 import { verifyJwt } from '~/utils/auth.util'
 import { Shop } from '~/models/types/shop.type'
 import { ShopService } from '~/services/shop.service'
+import { http } from 'winston'
 
 const verifyToken = async (token: string, publicKey: string, userId: string, options?: string) => {
   try {
@@ -15,16 +16,16 @@ const verifyToken = async (token: string, publicKey: string, userId: string, opt
     })) as Shop
     if (!decodedUser && options === 'refreshToken') {
       await KeyTokenService.removeKeyByUserId(userId)
-      throw new Error('Invalid token')
+      throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid token')
     }
-    if (userId !== decodedUser?._id) throw new Error('Invalid token')
+    if (userId !== decodedUser?._id) throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid token')
 
     const shop = await ShopService.findByEmail(decodedUser.email as string)
-    if (!shop) throw new Error('Invalid token')
+    if (!shop) throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid token')
 
     return shop
   } catch (error: any) {
-    throw new ApiError(httpStatus.FORBIDDEN, error.message)
+    throw new ApiError(error.statusCode, error.message)
   }
 }
 

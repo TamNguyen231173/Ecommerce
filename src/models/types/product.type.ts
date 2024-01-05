@@ -9,7 +9,7 @@ export interface Product {
   price: number
   quantity: number
   type?: string
-  shop?: Shop
+  shop: Shop
   attributes?: any
   ratingsAverage?: number
   variations?: any[]

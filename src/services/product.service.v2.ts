@@ -108,7 +108,7 @@ class Product {
   thumb?: string
   quantity: number
   type?: string
-  shop?: Shop
+  shop: Shop
   attributes?: any
 
   constructor({ name, price, description, thumb, quantity, type, shop, attributes }: ProductInterface) {
