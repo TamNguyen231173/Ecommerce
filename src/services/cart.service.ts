@@ -52,7 +52,6 @@ export class CartService {
    * }
    */
   static async addToCartV2({ user_id, shop_order_ids = [] }: { user_id: string; shop_order_ids: ShopOrder[] }) {
-    console.log('shop_order_ids', shop_order_ids)
     for (const shop_order of shop_order_ids) {
       for (const item_product of shop_order.item_products) {
         const { product_id, quantity, old_quantity } = item_product

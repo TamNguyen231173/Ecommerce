@@ -101,7 +101,7 @@ export class DiscountService {
     code: string
     user_id: string
     shop_id: string
-    products: Product[]
+    products: Partial<Product>[]
   }) {
     const foundDiscount = await DiscountRepo.checkDiscountCodeExists({ code, shop_id })
     const {
@@ -129,7 +129,10 @@ export class DiscountService {
     let totalOrder = 0
     if (min_order_value && min_order_value > 0) {
       totalOrder = products.reduce((acc, product) => {
-        return acc + product.quantity * product.price
+        if (product.quantity && product.price) {
+          return acc + product.quantity * product.price
+        }
+        return acc
       }, 0)
 
       if (totalOrder < min_order_value) {
@@ -139,7 +142,7 @@ export class DiscountService {
 
     if (max_used_per_user && max_used_per_user > 0) {
       const userDiscountedCount = user_used.filter((user: string) => user === user_id).length
-      if (userDiscountedCount > max_used_per_user) {
+      if (userDiscountedCount >= max_used_per_user) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Discount code is not applicable')
       }
     }

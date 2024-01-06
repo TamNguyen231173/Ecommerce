@@ -2,6 +2,8 @@ import { QueryFilter } from '~/utils/filter.util'
 import { CartModel } from '../cart.model'
 import { Types } from 'mongoose'
 import { Product } from '../types/product.type'
+import { ApiError } from '~/utils/api-error.util'
+import httpStatus from 'http-status'
 
 export class CartRepo {
   static async createUserCart({ user_id, product = {} }: { user_id: string; product: Partial<Product> }) {
@@ -36,5 +38,13 @@ export class CartRepo {
   static async getListCarts(user_id: string) {
     const filter: QueryFilter = { user: user_id, state: 'active' }
     return CartModel.findOne(filter).populate('products')
+  }
+
+  static async findCartById(cart_id: string) {
+    const cart = await CartModel.findOne({ _id: new Types.ObjectId(cart_id), state: 'active' }).populate('products')
+    if (!cart) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Cart not found')
+    }
+    return cart
   }
 }

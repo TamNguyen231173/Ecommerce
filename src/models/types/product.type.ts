@@ -17,6 +17,13 @@ export interface Product {
   isPublished?: boolean
 }
 
+export interface ItemProduct {
+  product_id: any
+  price: number
+  quantity: number
+  product: Product
+}
+
 export interface Cloth {
   _id?: any
   brand?: string

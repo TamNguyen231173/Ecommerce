@@ -2,6 +2,7 @@ import { result } from 'lodash'
 import { ProductModel } from '../product'
 import { QueryFilter, getUnSelectData } from '~/utils/filter.util'
 import { Document, Model, Types } from 'mongoose'
+import { ItemProduct } from '../types/product.type'
 
 export class ProductRepo {
   static publishProductByShop({ shop_id, product_id }: { shop_id: string; product_id: string }) {
@@ -45,7 +46,7 @@ export class ProductRepo {
   }
 
   static async findAllProducts({
-    sort,
+    sort = 'ctime',
     limit,
     page,
     filter,
@@ -93,5 +94,23 @@ export class ProductRepo {
 
   static async getProductById(product_id: string) {
     return ProductModel.findById(product_id).lean().exec()
+  }
+
+  static async checkProductByServer(products: ItemProduct[]) {
+    const productsWithDetails = await Promise.all(
+      products.map(async (product) => {
+        const foundProduct = await ProductModel.findById(product.product_id).lean().exec()
+        if (foundProduct) {
+          return {
+            price: foundProduct.price,
+            quantity: product.quantity,
+            product_id: product.product_id
+          }
+        }
+      })
+    )
+
+    // Filter out undefined values
+    return productsWithDetails.filter((product) => product !== undefined)
   }
 }

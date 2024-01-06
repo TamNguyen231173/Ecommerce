@@ -41,6 +41,4 @@ export class DiscountRepo {
 
     return foundDiscount
   }
-
-  // static async getDiscountAmount() {}
 }
