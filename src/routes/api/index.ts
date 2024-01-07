@@ -7,6 +7,7 @@ import { discountRouter } from './discount.route'
 import { cartRouter } from './cart.route'
 import { checkoutRouter } from './checkout.route'
 import { inventoryRouter } from './inventory.route'
+import { commentRouter } from './comment.route'
 
 const apiRouter = Router()
 
@@ -16,6 +17,7 @@ apiRouter.use('/product', productRouter)
 apiRouter.use('/discount', discountRouter)
 apiRouter.use('/cart', authentication, cartRouter)
 apiRouter.use('/checkout', authentication, checkoutRouter)
-apiRouter.get('/inventory', authentication, inventoryRouter)
+apiRouter.use('/inventory', authentication, inventoryRouter)
+apiRouter.use('/comment', authentication, commentRouter)
 
 export default apiRouter
