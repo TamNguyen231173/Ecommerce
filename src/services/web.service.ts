@@ -1,10 +1,11 @@
+import compression from 'compression'
 import express, { Express } from 'express'
-import { config } from '~/configs'
 import helmet from 'helmet'
 import morgan from 'morgan'
-import compression from 'compression'
-import mainRouter from '~/routes'
+import { config } from '~/configs'
 import { errorHandler } from '~/middlewares/error.middleware'
+import mainRouter from '~/routes'
+import '~/tests/inventory.test'
 
 export class WebService {
   protected static app: Express
