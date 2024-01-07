@@ -201,15 +201,15 @@ export class CheckoutService {
     }
   }
 
-  static async cancelOrderByUser({ order_id, user_id }: { order_id: string; user_id: string }) {}
+  // static async cancelOrderByUser({ order_id, user_id }: { order_id: string; user_id: string }) {}
 
-  static async updateOrderStatusByShop({
-    order_id,
-    shop_id,
-    status
-  }: {
-    order_id: string
-    shop_id: string
-    status: string
-  }) {}
+  // static async updateOrderStatusByShop({
+  //   order_id,
+  //   shop_id,
+  //   status
+  // }: {
+  //   order_id: string
+  //   shop_id: string
+  //   status: string
+  // }) {}
 }
