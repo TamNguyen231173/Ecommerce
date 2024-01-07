@@ -27,4 +27,14 @@ export class CommentController {
       data
     })
   }
+
+  static async deleteComments(req: Request, res: Response) {
+    await CommentService.deleteComments({
+      comment_id: req.params.comment_id,
+      product_id: req.params.product_id
+    })
+    res.status(200).json({
+      message: 'Comment deleted successfully'
+    })
+  }
 }

@@ -1,5 +1,6 @@
 import { Types } from 'mongoose'
 import { CommentModel } from '~/models/comment.model'
+import { ProductRepo } from '~/models/repositories/product.repo'
 
 export class CommentService {
   static async createComment({
@@ -107,5 +108,49 @@ export class CommentService {
       .sort({ left: 1 })
       .limit(limit)
       .skip(offset)
+  }
+
+  static async deleteComments({ comment_id, product_id }: { comment_id: string; product_id: string }) {
+    const foundProduct = await ProductRepo.findProductById({
+      product_id
+    })
+    if (!foundProduct) throw new Error('Product not found')
+
+    const comment = await CommentModel.findById(comment_id)
+    if (!comment) throw new Error('Comment not found')
+
+    // Get left and right value of the comment
+    const leftValue = comment.left
+    const rightValue = comment.right
+
+    // Get width of the comment
+    const width = rightValue - leftValue + 1
+
+    // Delete the comment
+    await CommentModel.deleteMany({
+      product: new Types.ObjectId(product_id),
+      left: { $gte: leftValue, $lte: rightValue }
+    })
+
+    // Update left and right value of the comments that are to the right of the deleted comment
+    await CommentModel.updateMany(
+      {
+        product: new Types.ObjectId(product_id),
+        left: { $gt: rightValue }
+      },
+      {
+        $inc: { left: -width }
+      }
+    )
+
+    await CommentModel.updateMany(
+      {
+        product: new Types.ObjectId(product_id),
+        right: { $gt: rightValue }
+      },
+      {
+        $inc: { right: -width }
+      }
+    )
   }
 }
