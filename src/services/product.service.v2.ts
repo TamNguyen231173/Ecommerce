@@ -6,6 +6,7 @@ import { ApiError } from '~/utils/api-error.util'
 import { Product as ProductInterface } from '../models/types/product.type'
 import { removeEmpty, updateNestedObject } from '~/utils/filter.util'
 import { InventoryRepo } from '~/models/repositories/inventory.repo'
+import { NotificationService } from './notification.service'
 
 export class ProductService {
   static productRegistry: {
@@ -135,6 +136,17 @@ class Product {
         stock: this.quantity,
         location: 'unknown'
       })
+
+      // push notification to system
+      NotificationService.pushNotiToSystem({
+        type: 'SHOP_001',
+        receiver: 'this is a lot user',
+        sender: this.shop._id,
+        options: {
+          product_name: this.name,
+          shop_name: this.shop.name
+        }
+      })
     }
 
     return newProduct
@@ -220,7 +232,7 @@ class Electronic extends Product {
       ...this.attributes,
       shop: this.shop
     })
-    if (!newElectronic) throw new Error('Cannot create new cloth')
+    if (!newElectronic) throw new Error('Cannot create new electronic')
 
     const newProduct = await super.createProduct(newElectronic._id)
     if (!newProduct) throw new Error('Cannot create new product')
@@ -271,7 +283,7 @@ class Furniture extends Product {
       ...this.attributes,
       shop: this.shop
     })
-    if (!newFur) throw new Error('Cannot create new cloth')
+    if (!newFur) throw new Error('Cannot create new furniture')
 
     const newProduct = await super.createProduct(newFur._id)
     if (!newProduct) throw new Error('Cannot create new product')

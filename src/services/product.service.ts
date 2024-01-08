@@ -3,6 +3,8 @@ import { Product as ProductInterface } from '../models/types/product.type'
 import { ClothModel, ElectronicModel, ProductModel, ProductType } from '~/models/product'
 import { ApiError } from '~/utils/api-error.util'
 import httpStatus from 'http-status'
+import { InventoryRepo } from '~/models/repositories/inventory.repo'
+import { NotificationService } from './notification.service'
 
 export class ProductService {
   static async createProduct(type: string, payload: any) {
@@ -40,10 +42,31 @@ class Product {
   }
 
   async createProduct(product_id: string) {
-    return ProductModel.create({
+    const newProduct = await ProductModel.create({
       ...this,
       _id: product_id
     })
+
+    if (newProduct) {
+      await InventoryRepo.insertInventory({
+        product: product_id,
+        shop: this.shop._id,
+        stock: this.quantity
+      })
+
+      // push notification to system
+      await NotificationService.pushNotiToSystem({
+        type: 'SHOP_001',
+        receiver: 'this is a lot user',
+        sender: this.shop._id,
+        options: {
+          product_name: this.name,
+          shop_name: this.shop.name
+        }
+      })
+    }
+
+    return newProduct
   }
 }
 
