@@ -1,24 +1,22 @@
-import { Kafka, KafkaConfig } from 'kafkajs'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { Kafka: KafkaProducer } = require('kafkajs')
 
-const kafkaConfig: KafkaConfig = {
+const kafkaConfigProducer = {
   clientId: 'test-app',
   brokers: ['localhost:9092']
 }
-const kafka = new Kafka(kafkaConfig)
+const kafkaProducer = new KafkaProducer(kafkaConfigProducer)
 
-const producer = kafka.producer()
+const producerKafka = kafkaProducer.producer()
 
-export const runProducer = async () => {
-  await producer.connect()
-  await producer.send({
+const runProducer = async () => {
+  await producerKafka.connect()
+  await producerKafka.send({
     topic: 'test-topic',
-    messages: [
-      {
-        value: 'Hello KafkaJS user!',
-        headers: { source: 'test-app' }
-      }
-    ]
+    messages: [{ value: 'Hello KafkaJS user!' }]
   })
 
-  await producer.disconnect()
+  await producerKafka.disconnect()
 }
+
+runProducer().catch(console.error)

@@ -1,21 +1,24 @@
-import { EachMessagePayload, Kafka, KafkaConfig } from 'kafkajs'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { EachMessagePayload, Kafka: KafkaConsumer, KafkaConfig } = require('kafkajs')
 
-const kafkaConfig: KafkaConfig = {
+const kafkaConfig = {
   clientId: 'test-app',
   brokers: ['localhost:9092']
 }
-const kafka = new Kafka(kafkaConfig)
+const kafka = new KafkaConsumer(kafkaConfig)
 
-const consumer = kafka.consumer({ groupId: 'test-group' })
+const consumerKafka = kafka.consumer({ groupId: 'test-group' })
 
-export const runConsumer = async () => {
-  await consumer.connect()
-  await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
-  await consumer.run({
-    eachMessage: async ({ topic, partition, message }: EachMessagePayload) => {
+const runConsumer = async () => {
+  await consumerKafka.connect()
+  await consumerKafka.subscribe({ topic: 'test-topic', fromBeginning: true })
+  await consumerKafka.run({
+    eachMessage: async ({ topic, partition, message }) => {
       console.log({
         value: message.value?.toString()
       })
     }
   })
 }
+
+runConsumer().catch(console.error)

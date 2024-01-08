@@ -40,6 +40,8 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "@types/amqplib": "^0.10.4",
+    "amqplib": "^0.10.3",
     "bcrypt": "^5.1.1",
     "compression": "^1.7.4",
     "crypto": "^1.0.1",

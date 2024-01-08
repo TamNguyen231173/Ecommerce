@@ -36,6 +36,13 @@ services:
     networks:
       - kafka-network
 
+  rabbitmq:
+    container_name: ecommerce-rabbitmq
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+
 networks:
   kafka-network:
     driver: bridge
