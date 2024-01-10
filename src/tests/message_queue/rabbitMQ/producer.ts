@@ -13,6 +13,11 @@ const producer = async () => {
     // send message to consumer channel
     channel.sendToQueue(queueName, Buffer.from(message))
     console.log(`Message sent: ${message}`)
+
+    setTimeout(() => {
+      connection.close()
+      process.exit(0)
+    }, 500)
   } catch (error) {
     console.error(error)
   }
