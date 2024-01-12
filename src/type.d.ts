@@ -8,5 +8,6 @@ declare namespace Express {
     keyStore?: any
     user?: any
     refreshToken?: string
+    files?: any
   }
 }
