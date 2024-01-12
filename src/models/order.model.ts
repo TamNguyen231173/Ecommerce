@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
-import { Order } from './types'
+import { Order, OrderStatus } from './types'
 import { randomString } from '~/utils/random.util'
 
 export interface OrderDocument extends Order, Document {}
@@ -19,15 +19,12 @@ const schema = new Schema<OrderDocument>(
       type: Object,
       default: {}
     },
-    products: {
-      type: Array,
-      required: true
-    },
+    products: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
     tracking: { type: String, required: true },
     status: {
       type: String,
-      enum: ['PENDING', 'CONFIRMED', 'CANCEL', 'DELIVERED', 'COMPLETED'],
-      default: 'PENDING'
+      enum: Object.values(OrderStatus),
+      default: OrderStatus.PENDING
     }
   },
   { timestamps: true }
