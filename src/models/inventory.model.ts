@@ -9,7 +9,7 @@ const schema = new Schema<InventoryDocument>(
     location: { type: String, required: true },
     stock: { type: Number, required: true },
     shop: { type: Schema.Types.ObjectId, ref: 'Shop', required: true },
-    reservations: { type: Array, default: [] }
+    reservations: { type: Schema.Types.Mixed, default: [] }
   },
   { timestamps: true }
 )

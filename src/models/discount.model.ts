@@ -1,5 +1,5 @@
 import { Document, Schema, Types, model } from 'mongoose'
-import { Discount } from './types/discount.type'
+import { Discount, DiscountAppliesTo, DiscountType } from './types/discount.type'
 
 export interface DiscountDocument extends Discount, Document {}
 
@@ -9,8 +9,8 @@ const schema = new Schema<DiscountDocument>(
     description: { type: String, required: true },
     type: {
       type: String,
-      enum: ['percentage', 'fixed'],
-      default: 'percentage'
+      enum: Object.values(DiscountType),
+      default: DiscountType.FIXED
     },
     value: { type: Number, required: true },
     code: { type: String, required: true },
@@ -25,8 +25,8 @@ const schema = new Schema<DiscountDocument>(
     is_active: { type: Boolean, default: true },
     applies_to: {
       type: String,
-      enum: ['all', 'product', 'collection', 'category'],
-      default: 'all'
+      enum: Object.values(DiscountAppliesTo),
+      default: DiscountAppliesTo.ALL
     },
     product_ids: [{ type: Types.ObjectId, ref: 'Product', default: [] }]
   },

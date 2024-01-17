@@ -10,6 +10,7 @@ import { inventoryRouter } from './inventory.route'
 import { commentRouter } from './comment.route'
 import { notiRouter } from './notification.route'
 import { uploadRouter } from '~/routes/api/uploadRouter'
+import { profileRouter } from './profile.route'
 
 const apiRouter = Router()
 
@@ -23,5 +24,6 @@ apiRouter.use('/inventory', authentication, inventoryRouter)
 apiRouter.use('/comment', authentication, commentRouter)
 apiRouter.use('/notification', authentication, notiRouter)
 apiRouter.use('/upload', authentication, uploadRouter)
+apiRouter.use('/profile', profileRouter)
 
 export default apiRouter

@@ -6,6 +6,6 @@ export interface Comment {
   content: string
   left: number
   right: number
-  parent_id?: string
+  parent_id?: any
   isDeleted?: boolean
 }

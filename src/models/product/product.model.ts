@@ -30,10 +30,7 @@ const schema = new Schema<ProductDocument>(
       max: [5, 'Rating must be above 5.0'],
       set: (val: number) => Math.round(val * 10) / 10
     },
-    variations: {
-      type: Array,
-      default: []
-    },
+    variations: { type: Schema.Types.Mixed, default: [] },
     isDraft: {
       type: Boolean,
       default: true,

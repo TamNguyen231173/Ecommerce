@@ -43,6 +43,7 @@
   "dependencies": {
     "@types/amqplib": "^0.10.4",
     "@types/formidable": "^2.0.6",
+    "accesscontrol": "^2.2.1",
     "amqplib": "^0.10.3",
     "bcrypt": "^5.1.1",
     "cloudinary": "^1.41.2",
