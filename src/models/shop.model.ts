@@ -22,7 +22,7 @@ const schema = new Schema<Shop>(
     password: { type: String, required: true },
     status: { type: String, required: true },
     verify: { type: Boolean, required: true },
-    roles: { type: String, required: true, enum: Object.values(ShopRole) }
+    roles: [{ type: String, required: true }]
   },
   { timestamps: true }
 )

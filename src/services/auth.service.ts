@@ -88,7 +88,7 @@ export class AuthService {
 
       const newShop = await ShopModel.create({
         ...payload,
-        role: [ShopRole.SHOP],
+        roles: [ShopRole.SHOP],
         password: hashPassword,
         verify: false,
         status: ShopStatus.OPEN

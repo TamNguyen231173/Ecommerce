@@ -5,7 +5,7 @@ export interface Shop {
   password?: string
   status?: string
   verify?: boolean
-  roles?: string
+  roles?: string[]
   createdAt?: Date
   updatedAt?: Date
 }

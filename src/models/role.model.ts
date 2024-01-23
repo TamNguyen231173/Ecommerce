@@ -1,4 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
+import slugify from 'slugify'
 import { UserRole, UserRoleName, UserStatus } from '~/models/types'
 
 interface UserRoleDocument extends UserRole, Document {}

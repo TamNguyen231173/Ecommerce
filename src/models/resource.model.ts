@@ -1,7 +1,6 @@
 import { Document, Schema, model } from 'mongoose'
 import { Resource } from './types'
-import { randomString } from '~/utils/random.util'
-
+import slugify from 'slugify'
 export interface ResourceDocument extends Resource, Document {}
 
 const schema = new Schema<ResourceDocument>(
