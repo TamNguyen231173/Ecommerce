@@ -37,3 +37,9 @@ terraform.rc
 node_modules/
 
 *.env
+
+# Ignore all log files
+logs
+*.log
+
+.nx

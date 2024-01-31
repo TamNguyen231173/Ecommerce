@@ -1,8 +1,9 @@
+import { NextFunction, Request, Response } from 'express'
 import httpStatus from 'http-status'
 import { config } from '~/configs'
 import { logger } from '~/configs/logger.config'
+import { myLogger } from '~/configs/myLogger.config'
 import { ApiError } from '~/utils/api-error.util'
-import { Request, Response, NextFunction } from 'express'
 
 export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
   let error = err
@@ -20,6 +21,7 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
   }
 
   if (config.env === 'development') {
+    myLogger.error(error.message, ['test', req, error])
     logger.error(err.message + req.url)
   }
 
