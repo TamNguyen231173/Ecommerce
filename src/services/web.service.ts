@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 import { config } from '~/configs'
 import { errorHandler } from '~/middlewares/error.middleware'
+import { requestIdMiddleware } from '~/middlewares/request-id.middleware'
 import mainRouter from '~/routes'
 import '~/tests/inventory.test'
 
@@ -20,6 +21,7 @@ export class WebService {
     this.app.use(morgan(config.env === 'development' ? 'dev' : 'combined'))
     this.app.use(compression())
     this.app.use(mainRouter)
+    this.app.use(requestIdMiddleware)
     this.app.use(errorHandler)
 
     this.app.listen(this.port, () => {

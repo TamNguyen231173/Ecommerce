@@ -7,6 +7,14 @@
  * @Copyright : 2024 Tamnh, All rights Reserved.
  */
 
+/**
+ *  error, 
+ *  warning,
+ *  debug,
+ *  info,
+ *  requestId or traceId
+ */
+
 import { Logger, createLogger, format, transports } from 'winston'
 import DailyRotateFile from 'winston-daily-rotate-file'
 import { config } from '~/configs'
@@ -46,8 +54,8 @@ class MyLogger {
           format: format.combine(
             this.enumerateErrorFormat(),
             format.splat(),
+            format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
             formatPrint,
-            format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' })
           ),
           level: 'info'
         }),
@@ -61,8 +69,8 @@ class MyLogger {
           format: format.combine(
             this.enumerateErrorFormat(),
             format.splat(),
+            format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
             formatPrint,
-            format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' })
           ),
           level: 'error'
         })
@@ -80,9 +88,8 @@ class MyLogger {
   }
 
   commonParams(params: Params) {
-    let context: any,
-      req: any = {},
-      metadata: any = {}
+    let context: any, req: any = {}, metadata: any = {}
+
     if (!Array.isArray(params)) {
       context = params
     } else {
@@ -90,34 +97,20 @@ class MyLogger {
     }
 
     const requestId = req?.requestId || uuidv4()
-    return {
-      context,
-      requestId,
-      metadata
-    }
+    
+    return { context, requestId, metadata }
   }
 
   log(message: string, params: Params) {
     const paramLog = this.commonParams(params)
-    const logObject = Object.assign(
-      {
-        message
-      },
-      paramLog
-    )
-
+    const logObject = Object.assign({timestamp: new Date().toISOString(), message }, paramLog)
     this.logger.info(logObject)
   }
 
   error(message: string, params: Params) {
     const paramLog = this.commonParams(params)
-    const logObject = Object.assign(
-      {
-        message
-      },
-      paramLog
-    )
-
+    const logObject = Object.assign({timestamp: new Date().toISOString(), message }, paramLog)
+    console.log('logObject', logObject)
     this.logger.error(logObject)
   }
 }

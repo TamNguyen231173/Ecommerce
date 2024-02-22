@@ -9,5 +9,6 @@ declare namespace Express {
     user?: any
     refreshToken?: string
     files?: any
+    requestId?: string
   }
 }

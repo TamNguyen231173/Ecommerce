@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import httpStatus from 'http-status'
 import { config } from '~/configs'
-import { logger } from '~/configs/logger.config'
 import { myLogger } from '~/configs/myLogger.config'
 import { ApiError } from '~/utils/api-error.util'
 
@@ -15,14 +14,16 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
 
   const { statusCode, message } = error
   res.errorMessage = error.message
-  const response = {
-    code: statusCode,
-    message
-  }
+  const response = { code: statusCode, message }
 
   if (config.env === 'development') {
-    myLogger.error(error.message, ['test', req, error])
-    logger.error(err.message + req.url)
+    const resMessage = `${statusCode}-${Date.now()}ms - Response: ${JSON.stringify(error)}`
+    myLogger.error(resMessage, [
+      req.path,
+      { requestId: req.requestId },
+      { message: error.message }
+    ])
+    // logger.error(err.message + req.url)
   }
 
   res.status(statusCode).json(response)
