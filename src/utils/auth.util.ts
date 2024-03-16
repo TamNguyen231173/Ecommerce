@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { Shop } from '~/models/types/shop.type'
+import { Shop } from '~/types/shop.type'
 import { ApiError } from './api-error.util'
 import { http } from 'winston'
 import httpStatus from 'http-status'

@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
-import { Order, OrderStatus } from './types'
+import { Order, OrderStatus } from '../types'
 import { randomString } from '~/utils/random.util'
 
 export interface OrderDocument extends Order, Document {}

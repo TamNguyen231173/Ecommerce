@@ -1,13 +1,13 @@
 import httpStatus from 'http-status'
-import { CartRepo } from '~/models/repositories/cart.repo'
-import { ProductRepo } from '~/models/repositories/product.repo'
-import { ItemProduct } from '~/models/types/product.type'
+import { CartRepo } from '~/repositories/cart.repo'
+import { ProductRepo } from '~/repositories/product.repo'
+import { ItemProduct } from '~/types/product.type'
 import { ApiError } from '~/utils/api-error.util'
 import { DiscountService } from './discount.service'
 import { RedisService } from './redis.service'
 import { OrderModel } from '~/models/order.model'
-import { CheckoutRepo } from '~/models/repositories/checkout.repo'
-import { OrderPayment } from '~/models/types'
+import { CheckoutRepo } from '~/repositories/checkout.repo'
+import { OrderPayment } from '~/types'
 
 interface ShopOrderIds {
   shop_id: string

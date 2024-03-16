@@ -1,6 +1,6 @@
 import * as redis from 'redis'
 import { promisify } from 'util'
-import { InventoryRepo } from '~/models/repositories/inventory.repo'
+import { InventoryRepo } from '~/repositories/inventory.repo'
 
 export class RedisService {
   private static redisClient = redis.createClient()

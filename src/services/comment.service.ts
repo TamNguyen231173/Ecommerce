@@ -1,6 +1,6 @@
 import { Types } from 'mongoose'
 import { CommentModel } from '~/models/comment.model'
-import { ProductRepo } from '~/models/repositories/product.repo'
+import { ProductRepo } from '~/repositories/product.repo'
 
 export class CommentService {
   static async createComment({

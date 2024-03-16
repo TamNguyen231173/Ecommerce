@@ -1,7 +1,7 @@
 import httpStatus from 'http-status'
 import { CartModel } from '~/models/cart.model'
-import { CartRepo } from '~/models/repositories/cart.repo'
-import { ProductRepo } from '~/models/repositories/product.repo'
+import { CartRepo } from '~/repositories/cart.repo'
+import { ProductRepo } from '~/repositories/product.repo'
 import { ApiError } from '~/utils/api-error.util'
 
 interface ShopOrder {

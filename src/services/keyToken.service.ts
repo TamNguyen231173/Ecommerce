@@ -1,5 +1,5 @@
 import { KeyTokenModel } from '~/models/keyToken.model'
-import { Shop } from '~/models/types/shop.type'
+import { Shop } from '~/types/shop.type'
 
 export class KeyTokenService {
   static async createKeyToken({

@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
-import { Notification, NotiType } from './types'
+import { Notification, NotiType } from '../types'
 
 export interface NotificationDocument extends Notification, Document {}
 

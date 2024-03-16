@@ -1,6 +1,6 @@
 import httpStatus from 'http-status'
 import { InventoryModel } from '~/models/inventory.model'
-import { ProductRepo } from '~/models/repositories/product.repo'
+import { ProductRepo } from '~/repositories/product.repo'
 import { ApiError } from '~/utils/api-error.util'
 
 export class InventoryService {

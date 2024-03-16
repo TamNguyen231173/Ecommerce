@@ -1,5 +1,5 @@
 import { QueryFilter } from '~/utils/filter.util'
-import { CartModel } from '../cart.model'
+import { CartModel } from '../models/cart.model'
 import { Types } from 'mongoose'
 import { Product } from '../types/product.type'
 import { ApiError } from '~/utils/api-error.util'

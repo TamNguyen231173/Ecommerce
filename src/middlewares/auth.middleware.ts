@@ -4,7 +4,7 @@ import { KeyTokenService } from '~/services/keyToken.service'
 import { ApiError } from '~/utils/api-error.util'
 import { HEADER } from './apiKey.middleware'
 import { verifyJwt } from '~/utils/auth.util'
-import { Shop } from '~/models/types/shop.type'
+import { Shop } from '~/types/shop.type'
 import { ShopService } from '~/services/shop.service'
 import { http } from 'winston'
 

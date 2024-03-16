@@ -1,5 +1,5 @@
 import { QueryFilter, getSelectData, getUnSelectData } from '~/utils/filter.util'
-import { DiscountModel } from '../discount.model'
+import { DiscountModel } from '../models/discount.model'
 import { Types } from 'mongoose'
 import httpStatus from 'http-status'
 import { ApiError } from '~/utils/api-error.util'

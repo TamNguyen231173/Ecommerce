@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
-import { Comment } from './types/comment.type'
+import { Comment } from '../types/comment.type'
 
 export interface CommentDocument extends Comment, Document {}
 

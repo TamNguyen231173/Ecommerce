@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
-import { Cloth } from '../types/product.type'
+import { Cloth } from '../../types/product.type'
 
 export interface ClothDocument extends Cloth, Document {}
 

@@ -1,12 +1,12 @@
 import httpStatus from 'http-status'
 import { Types } from 'mongoose'
 import { DiscountModel } from '~/models/discount.model'
-import { DiscountRepo } from '~/models/repositories/discount.repo'
-import { ProductRepo } from '~/models/repositories/product.repo'
+import { DiscountRepo } from '~/repositories/discount.repo'
+import { ProductRepo } from '~/repositories/product.repo'
 import { ShopModel } from '~/models/shop.model'
-import { Discount } from '~/models/types/discount.type'
+import { Discount } from '~/types/discount.type'
 import { ApiError } from '~/utils/api-error.util'
-import { Product } from '~/models/types/product.type'
+import { Product } from '~/types/product.type'
 import { QueryFilter } from '~/utils/filter.util'
 
 export class DiscountService {

@@ -1,5 +1,5 @@
 import { result } from 'lodash'
-import { ProductModel } from '../product'
+import { ProductModel } from '../models/product'
 import { QueryFilter, getUnSelectData } from '~/utils/filter.util'
 import { Document, Model, Types } from 'mongoose'
 import { ItemProduct } from '../types/product.type'

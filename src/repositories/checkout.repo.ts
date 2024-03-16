@@ -1,5 +1,5 @@
 import { QueryFilter, getSelectData, getUnSelectData } from '~/utils/filter.util'
-import { OrderModel } from '../order.model'
+import { OrderModel } from '../models/order.model'
 
 export class CheckoutRepo {
   static async getOrdersByUser({

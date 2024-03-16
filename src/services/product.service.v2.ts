@@ -1,11 +1,11 @@
 import httpStatus from 'http-status'
 import { ClothModel, ElectronicModel, ProductModel, ProductType } from '~/models/product'
-import { ProductRepo } from '~/models/repositories/product.repo'
-import { Shop } from '~/models/types/shop.type'
+import { ProductRepo } from '~/repositories/product.repo'
+import { Shop } from '~/types/shop.type'
 import { ApiError } from '~/utils/api-error.util'
-import { Product as ProductInterface } from '../models/types/product.type'
+import { Product as ProductInterface } from '../types/product.type'
 import { removeEmpty, updateNestedObject } from '~/utils/filter.util'
-import { InventoryRepo } from '~/models/repositories/inventory.repo'
+import { InventoryRepo } from '~/repositories/inventory.repo'
 import { NotificationService } from './notification.service'
 
 export class ProductService {

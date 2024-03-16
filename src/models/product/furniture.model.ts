@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
-import { Furniture } from '../types/product.type'
+import { Furniture } from '../../types/product.type'
 
 interface FurnitureDocument extends Furniture, Document {}
 

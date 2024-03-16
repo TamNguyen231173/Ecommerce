@@ -1,5 +1,5 @@
 import { NotificationModel } from '~/models/notification.model'
-import { NotiType } from '~/models/types'
+import { NotiType } from '~/types'
 import { QueryFilter } from '~/utils/filter.util'
 
 export class NotificationService {

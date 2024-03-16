@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
-import { ApiKey } from './types'
+import { ApiKey } from '../types'
 
 interface ApiKeyDocument extends ApiKey, Document {}
 

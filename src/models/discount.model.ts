@@ -1,5 +1,5 @@
 import { Document, Schema, Types, model } from 'mongoose'
-import { Discount, DiscountAppliesTo, DiscountType } from './types/discount.type'
+import { Discount, DiscountAppliesTo, DiscountType } from '../types/discount.type'
 
 export interface DiscountDocument extends Discount, Document {}
 

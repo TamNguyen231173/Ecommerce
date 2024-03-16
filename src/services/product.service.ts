@@ -1,9 +1,9 @@
-import { Shop } from '~/models/types/shop.type'
-import { Product as ProductInterface } from '../models/types/product.type'
+import { Shop } from '~/types/shop.type'
+import { Product as ProductInterface } from '../types/product.type'
 import { ClothModel, ElectronicModel, ProductModel, ProductType } from '~/models/product'
 import { ApiError } from '~/utils/api-error.util'
 import httpStatus from 'http-status'
-import { InventoryRepo } from '~/models/repositories/inventory.repo'
+import { InventoryRepo } from '~/repositories/inventory.repo'
 import { NotificationService } from './notification.service'
 
 export class ProductService {

@@ -1,5 +1,5 @@
 import { Document, Schema, Types, model } from 'mongoose'
-import { Cart } from './types/cart.type'
+import { Cart } from '../types/cart.type'
 
 export interface CartDocument extends Cart, Document {}
 

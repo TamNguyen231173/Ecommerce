@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
-import { Product } from '../types/product.type'
+import { Product } from '../../types/product.type'
 import slugify from 'slugify'
 
 export enum ProductType {

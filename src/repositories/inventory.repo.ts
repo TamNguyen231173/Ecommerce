@@ -1,4 +1,4 @@
-import { InventoryModel } from '../inventory.model'
+import { InventoryModel } from '../models/inventory.model'
 import { Inventory } from '../types/inventory.type'
 
 export class InventoryRepo {
