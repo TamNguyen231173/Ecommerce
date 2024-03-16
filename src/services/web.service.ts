@@ -7,25 +7,35 @@ import { errorHandler } from '~/middlewares/error.middleware'
 import { requestIdMiddleware } from '~/middlewares/request-id.middleware'
 import mainRouter from '~/routes'
 import '~/tests/inventory.test'
+import { AddressInfo } from 'net'
+import { createServer } from 'http'
 
 export class WebService {
-  protected static app: Express
+  protected static app: Express = express()
   static port: string | number = config.port || 3000
 
   static async start() {
-    this.app = express()
+    this.useMiddlewares([
+      express.json(),
+      express.urlencoded({ extended: true }),
+      helmet(),
+      morgan(config.env === 'development' ? 'dev' : 'combined'),
+      compression(),
+      mainRouter,
+      requestIdMiddleware,
+      errorHandler
+    ])
 
-    this.app.use(express.json())
-    this.app.use(express.urlencoded({ extended: true }))
-    this.app.use(helmet())
-    this.app.use(morgan(config.env === 'development' ? 'dev' : 'combined'))
-    this.app.use(compression())
-    this.app.use(mainRouter)
-    this.app.use(requestIdMiddleware)
-    this.app.use(errorHandler)
-
-    this.app.listen(this.port, () => {
-      console.log(`Server is running on port ${this.port}`)
+    const http = createServer(this.app)
+    http.listen(this.port, () => {
+      const address = http.address() as AddressInfo
+      console.log(`Server running at http://localhost:${address.port}`)
     })
+  }
+
+  static useMiddlewares(middlewares = []) {
+    for (const middleware of middlewares) {
+      this.app.use(middleware)
+    }
   }
 }

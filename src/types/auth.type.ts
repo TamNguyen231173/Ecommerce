@@ -1,3 +1,4 @@
+import { TemplateStatus } from '~/enums/email.enum'
 import { Shop } from './shop.type'
 
 export interface loginBody {
@@ -24,4 +25,18 @@ export interface ApiKey {
   key?: string
   status?: boolean
   permissions?: string[]
+}
+
+export interface Otp {
+  token: string
+  email: string
+  status: boolean
+  expiredAt: Date
+}
+
+export interface Template {
+  id: Number
+  name: string
+  status: TemplateStatus
+  html: string
 }

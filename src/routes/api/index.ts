@@ -12,6 +12,7 @@ import { notiRouter } from './notification.route'
 import { uploadRouter } from '~/routes/api/uploadRouter'
 import { profileRouter } from './profile.route'
 import { rbacRouter } from './rbac.route'
+import { emailRouter } from './email.route'
 
 const apiRouter = Router()
 
@@ -27,5 +28,6 @@ apiRouter.use('/notification', authentication, notiRouter)
 apiRouter.use('/upload', authentication, uploadRouter)
 apiRouter.use('/profile', profileRouter)
 apiRouter.use('/rbac', authentication, rbacRouter)
+apiRouter.use('/email', authentication, emailRouter)
 
 export default apiRouter

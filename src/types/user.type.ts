@@ -45,3 +45,8 @@ export interface User {
   role?: Role
   status?: UserStatus
 }
+
+export interface NewUserDto {
+  email?: string
+  captcha?: string
+}

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { mongooseConfig } from '~/configs'
-import { checkOverload } from '~/helpers/check.connect'
+import { checkOverload } from '~/utils/check-connect'
 
 export class DbService {
   private static instance: DbService

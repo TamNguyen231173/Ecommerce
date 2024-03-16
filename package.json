@@ -41,6 +41,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.535.0",
     "@types/amqplib": "^0.10.4",
     "@types/formidable": "^2.0.6",
     "accesscontrol": "^2.2.1",

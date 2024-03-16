@@ -13,5 +13,17 @@ export const config = {
 
   redis: {
     url: process.env.REDIS_URL || 'redis://localhost:6379'
+  },
+
+  aws: {
+    region: process.env.AWS_REGION || 'us-east-1',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+  },
+
+  email: {
+    from: process.env.SES_FROM_ADDRESS || 'tamnhShop@ecommerce.com',
+    replyTo: process.env.EMAIL_REPLY_TO || 'tamnhShop@ecommerce.com',
+    verifyUrl: process.env.EMAIL_VERIFY_URL || 'http://localhost:3000/email/verify'
   }
 }

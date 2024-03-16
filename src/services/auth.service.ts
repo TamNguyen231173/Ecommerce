@@ -19,9 +19,9 @@ export class AuthService {
       privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
     })
 
-    const tokenPair = await createTokenPair({ payload, privateKey})
+    const tokenPair = await createTokenPair({ payload, privateKey })
     if (!tokenPair) throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Cannot create token pair')
-    
+
     const publicKeyString = await KeyTokenService.createKeyToken({
       user: payload,
       publicKey,
@@ -38,7 +38,7 @@ export class AuthService {
 
     const isMatch = await bcrypt.compare(payload.password, foundShop.password as string)
     if (!isMatch) throw new ApiError(httpStatus.BAD_REQUEST, 'Password is incorrect')
-    
+
     const infoData = getInfoData({
       filed: ['_id', 'email', 'name', 'role', 'status', 'verify'],
       object: foundShop
@@ -46,14 +46,14 @@ export class AuthService {
 
     const { accessToken, refreshToken } = await this.generateTokens(infoData)
 
-    return { shop: infoData, tokens: { accessToken, refreshToken }}
+    return { shop: infoData, tokens: { accessToken, refreshToken } }
   }
 
   static async register(payload: registerBody) {
     try {
       const holderShop = await ShopModel.findOne({ email: payload.email }).lean()
       if (holderShop) throw new ApiError(httpStatus.BAD_REQUEST, 'Email already exists')
-      
+
       const hashPassword = await bcrypt.hash(payload.password, 10)
       const newShop = await ShopModel.create({
         ...payload,
@@ -71,7 +71,7 @@ export class AuthService {
 
         const { accessToken, refreshToken } = await this.generateTokens(infoData)
 
-        return { shop: infoData, tokens: { accessToken, refreshToken }}
+        return { shop: infoData, tokens: { accessToken, refreshToken } }
       }
 
       return null
@@ -88,7 +88,11 @@ export class AuthService {
     }
   }
 
-  static async refreshToken({ refreshToken, keyStore, user }: {
+  static async refreshToken({
+    refreshToken,
+    keyStore,
+    user
+  }: {
     refreshToken: string
     keyStore: KeyTokenDocument
     user: Shop
@@ -98,7 +102,8 @@ export class AuthService {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Refresh token is used')
     }
 
-    if (keyStore.refreshToken !== refreshToken) throw new ApiError(httpStatus.BAD_REQUEST, 'Refresh token is not exists')
+    if (keyStore.refreshToken !== refreshToken)
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Refresh token is not exists')
 
     const shop = await ShopService.findByEmail(user.email as string)
     if (!shop) throw new ApiError(httpStatus.NOT_FOUND, 'Email not found')
