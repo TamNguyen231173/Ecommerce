@@ -18,11 +18,7 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
 
   if (config.env === 'development') {
     const resMessage = `${statusCode}-${Date.now()}ms - Response: ${JSON.stringify(error)}`
-    myLogger.error(resMessage, [
-      req.path,
-      { requestId: req.requestId },
-      { message: error.message }
-    ])
+    myLogger.error(resMessage, [req.path, { requestId: req.requestId }, { message: error.message }])
     // logger.error(err.message + req.url)
   }
 

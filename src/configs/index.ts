@@ -12,7 +12,9 @@ export const config = {
   jwtSecret: process.env.JWT_SECRET || 'secret',
 
   redis: {
-    url: process.env.REDIS_URL || 'redis://localhost:6379'
+    url: process.env.REDIS_URL || 'redis://localhost:6379',
+    password: process.env.REDIS_PASSWORD || '123456',
+    username: process.env.REDIS_USERNAME || 'tamnguyen'
   },
 
   aws: {
