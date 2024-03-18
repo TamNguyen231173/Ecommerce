@@ -1,4 +1,4 @@
-import { KeyTokenModel } from '~/models/keyToken.model'
+import { KeyTokenModel } from '~/models/account/keyToken.model'
 import { Shop } from '~/types/shop.type'
 
 export class KeyTokenService {

@@ -1,4 +1,4 @@
-import { ShopModel } from '~/models/shop.model'
+import { ShopModel } from '~/models/account/shop.model'
 
 export interface options {
   select: {

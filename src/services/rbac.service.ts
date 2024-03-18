@@ -1,6 +1,6 @@
 import httpStatus from 'http-status'
-import { ResourceModel } from '~/models/resource.model'
-import { UserRoleModel } from '~/models/role.model'
+import { ResourceModel } from '~/models/account/resource.model'
+import { UserRoleModel } from '~/models/account/role.model'
 import { ApiError } from '~/utils/api-error.util'
 
 /**

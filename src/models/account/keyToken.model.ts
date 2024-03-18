@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
-import { KeyToken } from '../types'
+import { KeyToken } from '../../types'
 
 export interface KeyTokenDocument extends KeyToken, Document {}
 

@@ -14,7 +14,7 @@ const schema = new Schema<UserDocument>(
     sex: { type: String, default: '' },
     avatar: { type: String, default: '' },
     dob: { type: Date, default: null },
-    role: { type: Schema.Types.ObjectId, ref: 'Role' },
+    role: { type: Schema.Types.ObjectId, ref: 'UserRole' },
     status: { type: String, default: UserStatus.PENDING, enum: Object.values(UserStatus) }
   },
   { timestamps: true }

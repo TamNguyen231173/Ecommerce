@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 import httpStatus from 'http-status'
-import { ShopModel, ShopRole, ShopStatus } from '~/models/shop.model'
+import { ShopModel, ShopRole, ShopStatus } from '~/models/account/shop.model'
 import { KeyToken, loginBody, registerBody } from '~/types'
 import { Shop } from '~/types/shop.type'
 import { ApiError } from '~/utils/api-error.util'
@@ -9,7 +9,7 @@ import { createTokenPair, verifyJwt } from '~/utils/auth.util'
 import { getInfoData } from '~/utils/filter.util'
 import { KeyTokenService } from './keyToken.service'
 import { ShopService } from './shop.service'
-import { KeyTokenDocument } from '~/models/keyToken.model'
+import { KeyTokenDocument } from '~/models/account/keyToken.model'
 
 export class AuthService {
   static async generateTokens(payload: any) {

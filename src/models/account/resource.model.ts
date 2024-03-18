@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
-import { Resource } from '../types'
+import { Resource } from '../../types'
 import slugify from 'slugify'
 export interface ResourceDocument extends Resource, Document {}
 
