@@ -1,11 +1,18 @@
-import http from 'http'
+import { DbService } from './dbs/init.mongodb'
+import { RedisService } from './services/redis.service'
+import { WebService } from './services/web.service'
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200
-  res.setHeader('Content-Type', 'text/plain')
-  res.end('Hello World phase 2\n')
-})
+const main = async () => {
+  try {
+    await WebService.start()
+    await DbService.getInstance()
+    await RedisService.initRedis()
+    // await RedisPubSubService.getInstance()
+    // await RedisPubSubService.runTest()
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-server.listen(3000, () => {
-  console.log('Server running at http://localhost:3000/')
-})
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+main().then((_) => {})
