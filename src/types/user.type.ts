@@ -48,5 +48,10 @@ export interface User {
 
 export interface NewUserDto {
   email?: string
+  password?: string
+  name?: string
+  phone?: string
+  sex?: string
+  dob?: Date
   captcha?: string
 }

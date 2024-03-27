@@ -14,3 +14,5 @@ authRouter.post('/refresh-token', authentication, AuthController.refreshToken)
 
 // user
 authRouter.post('/user/register', UserController.newUser)
+authRouter.post('/user/register/:token/verify', UserController.checkRegisterEmailToken)
+authRouter.post('/user/login', UserController.login)
