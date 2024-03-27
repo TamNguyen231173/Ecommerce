@@ -7,5 +7,16 @@ export class UserController {
     res.json({ message: 'Email verify sent, please check your email' })
   }
 
-  // static checkRegisterEmailToken(req: Request, res: Response) {}
+  static checkRegisterEmailToken(req: Request, res: Response) {
+    UserService.checkRegisterEmailToken(req.params.token)
+    res.json({ message: 'Email verify success' })
+  }
+
+  static async login(req: Request, res: Response) {
+    const data = await UserService.login(req.body)
+    res.json({
+      message: 'Login success',
+      data
+    })
+  }
 }
