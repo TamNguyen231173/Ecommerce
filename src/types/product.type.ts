@@ -44,3 +44,34 @@ export interface Furniture {
   color?: string
   weight?: number
 }
+
+export interface Spu {
+  _id?: any
+  name: string
+  slug?: string
+  thumb?: string
+  description?: string
+  price: number
+  category?: string[]
+  quantity: number
+  shop: Shop
+  attributes?: any
+  ratingsAverage?: number
+  variations?: any[]
+  isDraft?: boolean
+  isPublished?: boolean
+  isDeleted?: boolean
+}
+
+export interface Sku {
+  _id?: any
+  tierIndex?: number[]
+  default: boolean
+  sort?: number
+  price: number
+  stock: number
+  product: Spu
+  isDraft?: boolean
+  isPublished?: boolean
+  isDeleted?: boolean
+}
