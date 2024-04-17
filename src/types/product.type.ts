@@ -75,3 +75,31 @@ export interface Sku {
   isPublished?: boolean
   isDeleted?: boolean
 }
+
+export interface SpuCreatePayload {
+  name: string
+  slug?: string
+  thumb?: string
+  description?: string
+  price: number
+  category?: string[]
+  quantity: number
+  shop: string
+  attributes?: any
+  ratingsAverage?: number
+  variations?: any[]
+  isDraft?: boolean
+  isPublished?: boolean
+  sku_list?: SkuCreatePayload[]
+}
+
+export interface SkuCreatePayload {
+  tierIndex?: number[]
+  default: boolean
+  sort?: number
+  price: number
+  stock: number
+  product: string
+  isDraft?: boolean
+  isPublished?: boolean
+}

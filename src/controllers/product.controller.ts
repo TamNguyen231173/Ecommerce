@@ -1,7 +1,33 @@
 import { ProductService } from '~/services/product.service.v2'
 import { Request, Response } from 'express'
+import { SpuService } from '~/services/spu.service'
+import { SkuService } from '~/services/sku.service'
 
 export class ProductController {
+  static async findOneSpu(req: Request, res: Response) {
+    const data = await SpuService.findOneSpu(req.query.spu_id as string)
+    return res.status(200).json({
+      message: 'Get spu successfully',
+      data
+    })
+  }
+
+  static async findOneSku(req: Request, res: Response) {
+    const data = await SkuService.findOneSku(req.query.sku_id as string, req.query.product_id as string)
+    return res.status(200).json({
+      message: 'Get sku successfully',
+      data
+    })
+  }
+
+  static async createSpu(req: Request, res: Response) {
+    const data = await SpuService.newSpu(req.body)
+    return res.status(201).json({
+      message: 'Create spu successfully',
+      data
+    })
+  }
+
   static async create(req: Request, res: Response) {
     req.body = {
       ...req.body,

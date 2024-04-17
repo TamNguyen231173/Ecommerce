@@ -44,4 +44,5 @@ logs
 
 .nx
 
+.DS_Store
 dist/

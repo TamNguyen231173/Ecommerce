@@ -1,7 +1,6 @@
-import { result } from 'lodash'
-import { ProductModel } from '../models/product'
-import { QueryFilter, getUnSelectData } from '~/utils/filter.util'
 import { Document, Model, Types } from 'mongoose'
+import { QueryFilter, getUnSelectData } from '~/utils/filter.util'
+import { ProductModel } from '../models/product'
 import { ItemProduct } from '../types/product.type'
 
 export class ProductRepo {
@@ -76,24 +75,20 @@ export class ProductRepo {
   }: {
     product_id: string
     payload: any
-    model: Model<
-      TDocument,
-      {},
-      {},
-      {},
-      Document<unknown, {}, TDocument> &
-        T & {
-          _id: Types.ObjectId
-        },
-      any
-    >
+    model: Model<TDocument, {}, {}, {}, Document<unknown, {}, TDocument> & T & { _id: Types.ObjectId }, any>
     isNew?: boolean
   }) {
     return model.findOneAndUpdate({ _id: product_id }, payload, { new: isNew }).lean().exec()
   }
 
   static async getProductById(product_id: string) {
-    return ProductModel.findById(product_id).lean().exec()
+    const productFound = await ProductModel.findById(product_id).lean()
+
+    if (!productFound) {
+      throw new Error('Product not found')
+    }
+
+    return productFound
   }
 
   static async checkProductByServer(products: ItemProduct[]) {
