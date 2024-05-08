@@ -1,4 +1,5 @@
 import { DbService } from './dbs/init.mongodb'
+import { elasticSearchService } from './services/elasticSearch.service'
 import { RedisService } from './services/redis.service'
 import { WebService } from './services/web.service'
 
@@ -7,6 +8,7 @@ const main = async () => {
     await WebService.start()
     await DbService.getInstance()
     await RedisService.initRedis()
+    await elasticSearchService.checkConnection()
     // await RedisPubSubService.getInstance()
     // await RedisPubSubService.runTest()
   } catch (error) {

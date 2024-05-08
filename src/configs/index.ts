@@ -27,5 +27,10 @@ export const config = {
     from: process.env.SES_FROM_ADDRESS || 'tamnhShop@ecommerce.com',
     replyTo: process.env.EMAIL_REPLY_TO || 'tamnhShop@ecommerce.com',
     verifyUrl: process.env.EMAIL_VERIFY_URL || 'http://localhost:3000/email/verify'
+  },
+
+  elasticSearch: {
+    node: process.env.ELASTICSEARCH_NODE || 'http://localhost:9200',
+    index: process.env.ELASTICSEARCH_INDEX || 'express-typescript'
   }
 }
