@@ -4,16 +4,23 @@ import { config } from '~/configs'
 class ElasticSearchService {
   private client: Client
 
-  constructor() {
-    this.client = new Client({ node: config.elasticSearch.node })
+  async init({ IS_ELASTICSEARCH_ENABLED }: { IS_ELASTICSEARCH_ENABLED: boolean }) {
+    if (IS_ELASTICSEARCH_ENABLED) {
+      try {
+        this.client = new Client({ node: config.elasticSearch.node })
+        await this.checkConnection()
+      } catch (error) {
+        console.error('Elasticsearch is not connected', error)
+      }
+    }
   }
 
   async checkConnection() {
     try {
-      await this.client.ping()
-      console.log('Elasticsearch connected')
-    } catch (err) {
-      console.error('Elasticsearch connection failed')
+      await this.client.cluster.health({})
+      console.log('Elasticsearch is connected')
+    } catch (error) {
+      console.error('Elasticsearch is not connected', error)
     }
   }
 

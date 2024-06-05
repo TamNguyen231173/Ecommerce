@@ -14,7 +14,9 @@ export const config = {
   redis: {
     url: process.env.REDIS_URL || 'redis://localhost:6379',
     password: process.env.REDIS_PASSWORD || '123456',
-    username: process.env.REDIS_USERNAME || 'tamnguyen'
+    username: process.env.REDIS_USERNAME || 'tamnguyen',
+    ioRedisPort: process.env.REDIS_PORT || 6379,
+    ioRedisHost: process.env.REDIS_HOST || 'localhost'
   },
 
   aws: {

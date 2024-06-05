@@ -4,8 +4,11 @@ import { ProductRepo } from '~/repositories/product.repo'
 import { SkuCreatePayload } from '~/types'
 import { ApiError } from '~/utils/api-error.util'
 import _ from 'lodash'
+import { CACHE_PRODUCT } from '~/configs/constant'
+import cacheRepo from '~/repositories/cache.repo'
 
 export class SkuService {
+
   static async newSku(payload: SkuCreatePayload) {
     const foundProduct = await ProductRepo.findProductById({ product_id: payload.product })
 
@@ -18,14 +21,16 @@ export class SkuService {
   }
 
   static async findOneSku(sku_id: string, product_id: string) {
-    // read cache
     const sku = await SkuModel.findOne({ _id: sku_id, product: product_id }).lean()
+    const skuKeyCache = `${CACHE_PRODUCT}${sku_id}`
 
     if (!sku) {
+      // if sku not found, set cache with key and value null, expiration 60 seconds
+      await cacheRepo.setCacheIOExpiration(skuKeyCache, null, 30)
       throw new ApiError(httpStatus.NOT_FOUND, 'Sku not found')
     }
 
-    // save cache
+    await cacheRepo.setCacheIO(skuKeyCache, JSON.stringify(sku))
 
     return _.omit(sku, ['_v', 'updatedAt', 'createdAt', 'product'])
   }
